@@ -2,9 +2,9 @@ class UserRegistrationCredentials {
   public username: string;
   public pass: string;
   public email: string;
-  public birth: Date;
+  public birth: string;
 
-  constructor(username: string, pass: string, email: string, birth: Date) {
+  constructor(username: string, pass: string, email: string, birth: string) {
     this.username = username;
     this.pass = pass;
     this.email = email;
@@ -26,9 +26,9 @@ class UserUpdateCredentials {
   public username: string;
   public pass: string;
   public email: string;
-  public birth: Date;
+  public birth: string;
 
-  constructor(username: string, pass: string, email: string, birth: Date) {
+  constructor(username: string, pass: string, email: string, birth: string) {
     this.username = username;
     this.pass = pass;
     this.email = email;

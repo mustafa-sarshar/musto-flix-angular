@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { RegistrationComponent } from "./users/registration/registration.component";
 
 @Component({
   selector: "app-root",
@@ -6,5 +8,9 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  title = "must-flix-angular";
+  constructor(public dialog: MatDialog) {}
+
+  onOpenUserRegistrationDialog(): void {
+    this.dialog.open(RegistrationComponent, { width: "480px" });
+  }
 }

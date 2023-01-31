@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "must-flix-angular": {
+    "musto-flix-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/must-flix-angular",
+            "outputPath": "dist/musto-flix-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -58,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "must-flix-angular:build:production"
+              "browserTarget": "musto-flix-angular:build:production"
             },
             "development": {
-              "browserTarget": "must-flix-angular:build:development"
+              "browserTarget": "musto-flix-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -69,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "must-flix-angular:build"
+            "browserTarget": "musto-flix-angular:build"
           }
         },
         "test": {

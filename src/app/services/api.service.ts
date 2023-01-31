@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
-import { catchError } from "rxjs/internal/operators";
 import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, catchError } from "rxjs";
 import { map } from "rxjs/operators";
-import * as path from "path";
 
 import { BACKEND_SERVER_URL } from "src/configs";
 import {
@@ -19,7 +17,7 @@ import {
 @Injectable({
   providedIn: "root",
 })
-export class FetchApiDataService {
+export class ApiService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {}
@@ -30,14 +28,23 @@ export class FetchApiDataService {
   ): Observable<any> {
     console.log(userCredentials);
     return this.http
-      .post(path.join(BACKEND_SERVER_URL, "users"), userCredentials)
+      .post(`${BACKEND_SERVER_URL}/users`, userCredentials)
       .pipe(catchError(this.handleError));
   }
 
   public userLogin(userCredentials: UserLoginCredentials): Observable<any> {
     console.log(userCredentials);
     return this.http
-      .post(path.join(BACKEND_SERVER_URL, "login"), userCredentials)
+      .post(
+        `${BACKEND_SERVER_URL}/login`,
+        {},
+        {
+          params: {
+            username: userCredentials.username,
+            pass: userCredentials.pass,
+          },
+        }
+      )
       .pipe(catchError(this.handleError));
   }
 
@@ -45,7 +52,7 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "users", username), {
+      .get(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -57,7 +64,7 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .put(path.join(BACKEND_SERVER_URL, "users", username), userCredentials, {
+      .put(`${BACKEND_SERVER_URL}/users/${username}`, userCredentials, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -69,7 +76,7 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .delete(path.join(BACKEND_SERVER_URL, "users", username), {
+      .delete(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -80,7 +87,7 @@ export class FetchApiDataService {
   public getMoviesAll(): Observable<any> {
     const token = localStorage.getItem("token");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "movies", "populated"), {
+      .get(`${BACKEND_SERVER_URL}/movies/populated`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -91,7 +98,7 @@ export class FetchApiDataService {
   public getMovie(title: string): Observable<any> {
     const token = localStorage.getItem("token");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "movies", title), {
+      .get(`${BACKEND_SERVER_URL}/movies/${title}`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -102,7 +109,7 @@ export class FetchApiDataService {
   public getDirector(directorName: string): Observable<any> {
     const token = localStorage.getItem("token");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "movies", "directors", directorName), {
+      .get(`${BACKEND_SERVER_URL}/movies/directors/${directorName}`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -113,7 +120,7 @@ export class FetchApiDataService {
   public getGenre(genreName: string): Observable<any> {
     const token = localStorage.getItem("token");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "movies", "genre", genreName), {
+      .get(`${BACKEND_SERVER_URL}/movies/genre/${genreName}`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -125,7 +132,7 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .get(path.join(BACKEND_SERVER_URL, "users", username, "favorites"), {
+      .get(`${BACKEND_SERVER_URL}/users/${username}/favorites`, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),
@@ -137,14 +144,11 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .put(
-        path.join(BACKEND_SERVER_URL, "users", username, "favorites", movieId),
-        {
-          headers: new HttpHeaders({
-            Authorization: "Bearer " + token,
-          }),
-        }
-      )
+      .put(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
+        headers: new HttpHeaders({
+          Authorization: "Bearer " + token,
+        }),
+      })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
@@ -152,14 +156,11 @@ export class FetchApiDataService {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
     return this.http
-      .delete(
-        path.join(BACKEND_SERVER_URL, "users", username, "favorites", movieId),
-        {
-          headers: new HttpHeaders({
-            Authorization: "Bearer " + token,
-          }),
-        }
-      )
+      .delete(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
+        headers: new HttpHeaders({
+          Authorization: "Bearer " + token,
+        }),
+      })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
