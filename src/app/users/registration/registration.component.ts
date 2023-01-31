@@ -27,13 +27,15 @@ export class RegistrationComponent implements OnInit {
         this.dialogRef.close();
         this.snackBar.open("User registration was successful!", "OK", {
           duration: 2000,
+          panelClass: ["green-snackbar", "login-snackbar"],
         });
       },
       (error) => {
         this.snackBar.open("Something went wrong! Please try again.", "OK", {
           duration: 2000,
+          panelClass: ["red-snackbar", "login-snackbar"],
         });
-        console.error(error);
+        console.error("Registration error:", error);
       }
     );
   }

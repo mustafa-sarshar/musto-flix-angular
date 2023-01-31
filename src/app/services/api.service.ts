@@ -180,6 +180,6 @@ export class ApiService {
           `Error body is: ${httpErrorRes.error}`
       );
     }
-    return throwError("Something bad happened; please try again later.");
+    return throwError("Something went wrong! Please try again later.");
   }
 }
