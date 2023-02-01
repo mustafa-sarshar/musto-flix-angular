@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
+import { RouterModule, Routes } from "@angular/router";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ApiService } from "./services/api.service";
-import { MainViewComponent } from "./main-view/main-view.component";
-import { LoginComponent } from "./users/login/login.component";
-import { ProfileComponent } from "./users/profile/profile.component";
+import { LoginComponent } from "./views/users/login/login.component";
+import { ProfileComponent } from "./views/users/profile/profile.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -17,21 +17,34 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { RegistrationComponent } from "./users/registration/registration.component";
+import { MatIconModule } from "@angular/material/icon";
+
+import { RegistrationComponent } from "./views/users/registration/registration.component";
+import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
+import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
+
+const APP_ROUTES: Routes = [
+  { path: "welcome", component: WelcomePageComponent },
+  { path: "movies", component: MovieCardComponent },
+  { path: "profile", component: ProfileComponent },
+  { path: "", redirectTo: "welcome", pathMatch: "prefix" },
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainViewComponent,
     LoginComponent,
     ProfileComponent,
     RegistrationComponent,
+    MovieCardComponent,
+    WelcomePageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(APP_ROUTES),
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -40,6 +53,7 @@ import { RegistrationComponent } from "./users/registration/registration.compone
     MatFormFieldModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
   providers: [ApiService],
   bootstrap: [AppComponent],

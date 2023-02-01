@@ -41,6 +41,9 @@ $musto-flix-angular-theme: mat.define-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+$color-snackbar-success: #1a6b1e;
+$color-snackbar-failure: #6e1610;
+
 html,
 body {
   height: 100%;
@@ -48,4 +51,30 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.green {
+  &-snackbar {
+    background: $color-snackbar-success !important;
+    color: white !important;
+
+    button {
+      background-color: $color-snackbar-success !important;
+      color: white !important;
+      border: none !important;
+    }
+  }
+}
+
+.red {
+  &-snackbar {
+    background: $color-snackbar-failure !important;
+    color: white !important;
+
+    button {
+      background-color: $color-snackbar-failure !important;
+      color: white !important;
+      border: none !important;
+    }
+  }
 }

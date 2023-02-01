@@ -86,6 +86,7 @@ export class ApiService {
 
   public getMoviesAll(): Observable<any> {
     const token = localStorage.getItem("token");
+    console.log("Token:", token);
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/populated`, {
         headers: new HttpHeaders({
@@ -166,8 +167,7 @@ export class ApiService {
 
   // Non-typed response extraction
   private extractResponseData(res: Response): any {
-    const { body } = res;
-    return body || {};
+    return res || [];
   }
 
   // Handle Errors
@@ -180,6 +180,6 @@ export class ApiService {
           `Error body is: ${httpErrorRes.error}`
       );
     }
-    return throwError("Something bad happened; please try again later.");
+    return throwError("Something went wrong! Please try again later.");
   }
 }

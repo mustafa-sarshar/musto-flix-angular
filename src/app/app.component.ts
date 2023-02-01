@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { RegistrationComponent } from "./users/registration/registration.component";
+
+import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 
 @Component({
   selector: "app-root",
@@ -8,9 +9,11 @@ import { RegistrationComponent } from "./users/registration/registration.compone
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) {}
 
-  onOpenUserRegistrationDialog(): void {
-    this.dialog.open(RegistrationComponent, { width: "480px" });
+  onOpenMoviesDialog(): void {
+    this.dialog.open(MovieCardComponent, {
+      width: "500px",
+    });
   }
 }
