@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
-import { RouterModule, Routes } from "@angular/router";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -23,13 +22,6 @@ import { RegistrationComponent } from "./views/users/registration/registration.c
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 
-const APP_ROUTES: Routes = [
-  { path: "welcome", component: WelcomePageComponent },
-  { path: "movies", component: MovieCardComponent },
-  { path: "profile", component: ProfileComponent },
-  { path: "", redirectTo: "welcome", pathMatch: "prefix" },
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +36,6 @@ const APP_ROUTES: Routes = [
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(APP_ROUTES),
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
