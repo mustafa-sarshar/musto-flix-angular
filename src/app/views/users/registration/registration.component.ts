@@ -22,8 +22,8 @@ export class RegistrationComponent implements OnInit {
 
   onSubmitForm(): void {
     this.apiService.userRegistration(this.inputData).subscribe(
-      (results) => {
-        console.log(results);
+      (result) => {
+        console.log(result);
         this.dialogRef.close();
         this.snackBar.open("User registration was successful!", "OK", {
           duration: 2000,

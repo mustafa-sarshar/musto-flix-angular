@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 import { ApiService } from "src/app/services/api.service";
 import { UserLoginCredentials } from "src/models";
 
@@ -14,19 +15,24 @@ export class LoginComponent {
 
   constructor(
     private apiService: ApiService,
-    public dialogRef: MatDialogRef<LoginComponent>,
-    public snackBar: MatSnackBar
+    private dialogRef: MatDialogRef<LoginComponent>,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   onSubmitForm() {
     this.apiService.userLogin(this.inputData).subscribe(
-      (results) => {
-        console.log(results);
+      (result) => {
+        console.log(result);
+        localStorage.setItem("username", result.user.username);
+        localStorage.setItem("favorites", result.user.favList.toString());
+        localStorage.setItem("token", result.token);
         this.dialogRef.close();
         this.snackBar.open("User login was successful!", "OK", {
           duration: 2000,
           panelClass: ["green-snackbar", "login-snackbar"],
         });
+        this.router.navigate(["movies"]);
       },
       (error) => {
         this.snackBar.open("Something went wrong! Please try again.", "OK", {

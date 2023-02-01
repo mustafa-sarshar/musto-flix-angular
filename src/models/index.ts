@@ -1,43 +1,82 @@
 class UserRegistrationCredentials {
-  public username: string;
-  public pass: string;
-  public email: string;
-  public birth: string;
-
-  constructor(username: string, pass: string, email: string, birth: string) {
-    this.username = username;
-    this.pass = pass;
-    this.email = email;
-    this.birth = birth;
-  }
+  constructor(
+    public username: string,
+    public pass: string,
+    public email: string,
+    public birth: string
+  ) {}
 }
 
 class UserLoginCredentials {
-  public username: string;
-  public pass: string;
-
-  constructor(username: string, pass: string) {
-    this.username = username;
-    this.pass = pass;
-  }
+  constructor(public username: string, public pass: string) {}
 }
 
 class UserUpdateCredentials {
-  public username: string;
-  public pass: string;
-  public email: string;
-  public birth: string;
+  constructor(
+    public username: string,
+    public pass: string,
+    public email: string,
+    public birth: string
+  ) {}
+}
 
-  constructor(username: string, pass: string, email: string, birth: string) {
-    this.username = username;
-    this.pass = pass;
-    this.email = email;
-    this.birth = birth;
+class Person {
+  constructor(
+    public _id: string,
+    public name: string,
+    public bio: string,
+    public birth: string,
+    public death: string
+  ) {}
+}
+
+class Director extends Person {
+  constructor(
+    _id: string,
+    name: string,
+    bio: string,
+    birth: string,
+    death: string
+  ) {
+    super(_id, name, bio, birth, death);
   }
+}
+
+class Actor extends Person {
+  constructor(
+    _id: string,
+    name: string,
+    bio: string,
+    birth: string,
+    death: string
+  ) {
+    super(_id, name, bio, birth, death);
+  }
+}
+
+class Genre {
+  constructor(public _id: string, public name: string, public des: string) {}
+}
+
+class Movie {
+  constructor(
+    public _id: string,
+    public title: string,
+    public des: string,
+    public directors: Director[],
+    public stars: Actor[],
+    public genres: Genre[],
+    public image_url: string,
+    public featured: boolean
+  ) {}
 }
 
 export {
   UserRegistrationCredentials,
   UserLoginCredentials,
   UserUpdateCredentials,
+  Director,
+  Actor,
+  Genre,
+  Movie,
 };
