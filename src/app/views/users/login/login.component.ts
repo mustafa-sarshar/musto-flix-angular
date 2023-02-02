@@ -12,6 +12,7 @@ import { UserLoginCredentials } from "src/models";
 })
 export class LoginComponent {
   @Input() inputData = new UserLoginCredentials("", "");
+  hidePasswordValue = true;
 
   constructor(
     private apiService: ApiService,
@@ -42,5 +43,9 @@ export class LoginComponent {
         console.error(error);
       }
     );
+  }
+
+  onClickCancel(): void {
+    this.dialogRef.close();
   }
 }

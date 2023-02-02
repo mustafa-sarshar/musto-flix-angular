@@ -11,6 +11,7 @@ import { UserRegistrationCredentials } from "src/models";
 })
 export class RegistrationComponent implements OnInit {
   @Input() inputData = new UserRegistrationCredentials("", "", "", "");
+  hidePasswordValue = true;
 
   constructor(
     private apiService: ApiService,
@@ -38,5 +39,9 @@ export class RegistrationComponent implements OnInit {
         console.error("Registration error:", error);
       }
     );
+  }
+
+  onClickCancel(): void {
+    this.dialogRef.close();
   }
 }
