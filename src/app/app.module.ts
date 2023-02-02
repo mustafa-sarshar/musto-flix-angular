@@ -14,6 +14,7 @@ import { RegistrationComponent } from "./views/users/registration/registration.c
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { AppMaterialModule } from "./app-material.module";
+import { NavbarComponent } from "./views/navbar/navbar.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AppMaterialModule } from "./app-material.module";
     RegistrationComponent,
     MovieCardComponent,
     WelcomePageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
