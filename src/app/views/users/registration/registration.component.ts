@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     public dialogRef: MatDialogRef<RegistrationComponent>,
-    public snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {}
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
           duration: 2000,
           panelClass: ["red-snackbar", "login-snackbar"],
         });
-        console.error("Registration error:", error);
+        console.error("Registration error:", error.message);
       }
     );
   }

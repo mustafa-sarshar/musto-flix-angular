@@ -26,14 +26,12 @@ export class ApiService {
   public userRegistration(
     userCredentials: UserRegistrationCredentials
   ): Observable<any> {
-    console.log(userCredentials);
     return this.http
       .post(`${BACKEND_SERVER_URL}/users`, userCredentials)
       .pipe(catchError(this.handleError));
   }
 
   public userLogin(userCredentials: UserLoginCredentials): Observable<any> {
-    console.log(userCredentials);
     return this.http
       .post(
         `${BACKEND_SERVER_URL}/login`,
@@ -50,7 +48,7 @@ export class ApiService {
 
   public getUser(): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
@@ -62,7 +60,7 @@ export class ApiService {
 
   public updateUser(userCredentials: UserUpdateCredentials): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
       .put(`${BACKEND_SERVER_URL}/users/${username}`, userCredentials, {
         headers: new HttpHeaders({
@@ -74,7 +72,7 @@ export class ApiService {
 
   public deleteUser(): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
@@ -86,7 +84,6 @@ export class ApiService {
 
   public getMoviesAll(): Observable<any> {
     const token = localStorage.getItem("token");
-    console.log("Token:", token);
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/populated`, {
         headers: new HttpHeaders({
@@ -131,7 +128,7 @@ export class ApiService {
 
   public getFavoriteMovies(): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}/favorites`, {
         headers: new HttpHeaders({
@@ -141,21 +138,25 @@ export class ApiService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  public addFavoriteMovie(movieId: string): Observable<any> {
+  public addFavoriteMovieToServer(movieId: string): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
-      .put(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
-        headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
-        }),
-      })
+      .patch(
+        `${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`,
+        {},
+        {
+          headers: new HttpHeaders({
+            Authorization: "Bearer " + token,
+          }),
+        }
+      )
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  public removeFavoriteMovie(movieId: string): Observable<any> {
+  public removeFavoriteMovieFromServer(movieId: string): Observable<any> {
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("user");
+    const username = localStorage.getItem("username");
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
         headers: new HttpHeaders({
@@ -172,14 +173,18 @@ export class ApiService {
 
   // Handle Errors
   private handleError(httpErrorRes: HttpErrorResponse): any {
-    if (httpErrorRes.error instanceof ErrorEvent) {
-      console.error("Some error occurred:", httpErrorRes.error.message);
+    if (httpErrorRes.error) {
+      if (httpErrorRes.error.message) {
+        console.error(
+          `Error Status: ${httpErrorRes.status}\nError message: ${httpErrorRes.error.message}`
+        );
+        return throwError({ message: httpErrorRes.error.message });
+      }
     } else {
       console.error(
-        `Error Status code ${httpErrorRes.status}, ` +
-          `Error body is: ${httpErrorRes.error}`
+        `Error Status: ${httpErrorRes.status}\nError body: ${httpErrorRes.error}`
       );
+      return throwError("Something went wrong! Please try again later.");
     }
-    return throwError("Something went wrong! Please try again later.");
   }
 }

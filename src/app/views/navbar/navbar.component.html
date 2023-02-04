@@ -1,3 +1,15 @@
-<mat-toolbar>
-  <span>Musto-Flix</span>
+<mat-toolbar class="navbar-container">
+  <div>
+    <span class="navbar-title" (click)="onClickAppBrand()">Musto Flix</span>
+  </div>
+  <div *ngIf="username">
+    <button mat-icon-button color="default" aria-label="to go to the user profile" [matTooltip]="username"
+      (click)="onClickUserProfile()">
+      <mat-icon>person</mat-icon>
+    </button>
+    <button mat-icon-button color="default" aria-label="to logout from the app" matTooltip="Logout"
+      (click)="onClickLogout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

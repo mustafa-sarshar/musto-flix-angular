@@ -1,1 +1,48 @@
-<p>profile works!</p>
+<app-navbar></app-navbar>
+<div *ngIf="username" class="user-card-container">
+  <mat-card class="user-card-item">
+    <mat-card-title class="user-card-title">{{username}}</mat-card-title>
+    <mat-dialog-content>
+      <form autoComplete="off">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="inputData.username" type="text" name="username" placeholder="username"
+            id="username" required>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
+          <input matInput name="pass" placeholder="" id="pass" autoComplete="off" [(ngModel)]="inputData.pass"
+            [type]="hidePasswordValue ? 'password' : 'text'" required>
+          <button mat-icon-button matSuffix (click)="hidePasswordValue = !hidePasswordValue"
+            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordValue">
+            <mat-icon>{{hidePasswordValue ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="inputData.email" type="email" name="email" placeholder="Email" id="email"
+            required>
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Birth date</mat-label>
+          <input matInput [(ngModel)]="inputData.birth" type="date" name="birth" placeholder="birth" id="birth">
+          <mat-icon matSuffix>calendar_month</mat-icon>
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        <button mat-stroked-button color="primary" (click)="onClickUpdateUserProfile()">
+          Update
+        </button>
+        <button mat-stroked-button color="warn" (click)="onClickDeleteAccount()">
+          Delete Account
+        </button>
+      </mat-card-actions>
+    </mat-card-footer>
+    <p *ngIf="errorMessage" class="error-message">{{errorMessage}}</p>
+  </mat-card>
+
+</div>

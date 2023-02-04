@@ -1,25 +1,32 @@
-<div class="movie-card-container">
-  <mat-card *ngFor="let movie of movies; let i = index;" class="movie-card-item">
-    <mat-card-header>
-      <mat-card-title class="movie-title">{{movie.title}}</mat-card-title>
+<app-navbar></app-navbar>
+<div class="movie-container">
+  <mat-card *ngFor="let movie of movies; let i = index;" class="movie-card">
+    <mat-card-header class="movie-card-header">
+      <mat-card-title class="movie-card-title">{{movie.title}}</mat-card-title>
     </mat-card-header>
     <mat-dialog-content>
       <mat-card-subtitle>
-        <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-image">
+        <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-card-image">
       </mat-card-subtitle>
-      <mat-card-subtitle>Director(s): {{extractDirectors(movie.directors)}}</mat-card-subtitle>
+      <!-- <mat-card-subtitle>Director(s): {{extractDirectors(movie.directors)}}</mat-card-subtitle> -->
     </mat-dialog-content>
-    <mat-card-actions>
-      <button mat-button color="primary">
-        Genre
-      </button>
-      <button mat-button color="primary">
-        Director
-      </button>
-      <button mat-button color="primary">
-        Stars
-      </button>
-      <mat-icon>favorite_border</mat-icon>
-    </mat-card-actions>
+    <mat-card-footer class="movie-card-footer">
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="onClickGenres(movie.genres)">
+          Genre(s)
+        </button>
+        <button mat-button color="primary" (click)="onClickDirectors(movie.directors)">
+          Director(s)
+        </button>
+        <button mat-button color="primary" (click)="onClickStars(movie.stars)">
+          Star(s)
+        </button>
+      </mat-card-actions>
+      <mat-card-actions>
+        <button mat-icon-button (click)="onClickToggleFavorite(movie._id)">
+          <mat-icon color="warn">{{ checkMovieIsFavorite(movie._id) ? 'favorite' : 'favorite_border'}}</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card-footer>
   </mat-card>
 </div>

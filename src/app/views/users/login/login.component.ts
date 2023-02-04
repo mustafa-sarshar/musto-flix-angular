@@ -16,7 +16,7 @@ export class LoginComponent {
 
   constructor(
     private apiService: ApiService,
-    private dialogRef: MatDialogRef<LoginComponent>,
+    public dialogRef: MatDialogRef<LoginComponent>,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -24,7 +24,7 @@ export class LoginComponent {
   onSubmitForm() {
     this.apiService.userLogin(this.inputData).subscribe(
       (result) => {
-        console.log(result);
+        localStorage.clear();
         localStorage.setItem("username", result.user.username);
         localStorage.setItem("favorites", result.user.favList.toString());
         localStorage.setItem("token", result.token);
@@ -40,7 +40,7 @@ export class LoginComponent {
           duration: 2000,
           panelClass: ["red-snackbar", "login-snackbar"],
         });
-        console.error(error);
+        console.error(error.message);
       }
     );
   }
