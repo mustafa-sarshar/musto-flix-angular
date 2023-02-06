@@ -1,0 +1,40 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false"
+    [ngClass]="{hidden: (isHandset$ | async) === false}">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list *ngIf="username">
+      <mat-list-item class="list-item" (click)="onClickUserProfile()" [matTooltip]="username">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <span>User profile</span>
+      </mat-list-item>
+      <mat-list-item class="list-item" (click)="onClickLogout()" matTooltip="Logout">
+        <mat-icon mat-list-icon>logout</mat-icon>
+        <span>Logout</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <!-- Toolbar Content AND Nav Items Here -->
+      <span class="app-brand" (click)="onClickAppBrand()">Musto Flix</span>
+      <span class="spacer"></span>
+      <div *ngIf="username && (isHandset$ | async) === false">
+        <button mat-icon-button color="default" aria-label="to go to the user profile" [matTooltip]="username"
+          (click)="onClickUserProfile()">
+          <mat-icon>person</mat-icon>
+        </button>
+        <button mat-icon-button color="default" aria-label="to logout from the app" matTooltip="Logout"
+          (click)="onClickLogout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <!-- Page Content Here -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

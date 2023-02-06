@@ -1,1 +1,19 @@
-<p>directors works!</p>
+<mat-accordion>
+  <p class="accordion-title">{{directors.length > 1 ? 'Directors:' : 'Director:'}}</p>
+  <mat-expansion-panel class="accordion-item" *ngFor=" let director of directors">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{director.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      <p>{{director.bio}}</p>
+    </mat-panel-description>
+    <mat-panel-description>
+      <small><b>Birth:</b> {{director.birth | date}}</small>
+    </mat-panel-description>
+    <mat-panel-description>
+      <small><b>Death:</b> {{director.death | date}}</small>
+    </mat-panel-description>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,1 +1,13 @@
-<p>genres works!</p>
+<mat-accordion>
+  <p class="accordion-title">{{genres.length > 1 ? 'Genres:' : 'Genre:'}}</p>
+  <mat-expansion-panel class="accordion-item" *ngFor=" let genre of genres">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{genre.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      <p>{{genre.des}}</p>
+    </mat-panel-description>
+  </mat-expansion-panel>
+</mat-accordion>

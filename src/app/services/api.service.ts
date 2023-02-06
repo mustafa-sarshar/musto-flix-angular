@@ -9,6 +9,7 @@ import { map } from "rxjs/operators";
 
 import { BACKEND_SERVER_URL } from "src/configs";
 import {
+  Movie,
   UserLoginCredentials,
   UserRegistrationCredentials,
   UserUpdateCredentials,
@@ -20,6 +21,7 @@ import {
 export class ApiService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
+
   constructor(private http: HttpClient) {}
 
   // Making the api call for the user registration endpoint

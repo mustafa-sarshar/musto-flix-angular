@@ -1,1 +1,19 @@
-<p>stars works!</p>
+<mat-accordion>
+  <p class="accordion-title">{{stars.length > 1 ? 'Stars:' : 'Star:'}}</p>
+  <mat-expansion-panel class="accordion-item" *ngFor=" let star of stars">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{star.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      <p>{{star.bio}}</p>
+    </mat-panel-description>
+    <mat-panel-description>
+      <small><b>Birth:</b> {{star.birth | date}}</small>
+    </mat-panel-description>
+    <mat-panel-description>
+      <small><b>Death:</b> {{star.death | date}}</small>
+    </mat-panel-description>
+  </mat-expansion-panel>
+</mat-accordion>
