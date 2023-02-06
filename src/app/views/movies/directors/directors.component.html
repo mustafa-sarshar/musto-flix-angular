@@ -1,5 +1,8 @@
 <mat-accordion>
-  <p class="accordion-title">{{directors.length > 1 ? 'Directors:' : 'Director:'}}</p>
+  <div class="accordion-title" matTooltip="{{directors.length > 1 ? 'Directors' : 'Director'}}">
+    <mat-icon color="primary">record_voice_over</mat-icon>
+    <span>{{directors.length > 1 ? 'Directors' : 'Director'}}</span>
+  </div>
   <mat-expansion-panel class="accordion-item" *ngFor=" let director of directors">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -10,10 +13,10 @@
       <p>{{director.bio}}</p>
     </mat-panel-description>
     <mat-panel-description>
-      <small><b>Birth:</b> {{director.birth | date}}</small>
+      <small><b>Birth:</b> {{(director.birth | date) || '---'}}</small>
     </mat-panel-description>
     <mat-panel-description>
-      <small><b>Death:</b> {{director.death | date}}</small>
+      <small><b>Death:</b> {{(director.death | date) || '---'}}</small>
     </mat-panel-description>
   </mat-expansion-panel>
 </mat-accordion>

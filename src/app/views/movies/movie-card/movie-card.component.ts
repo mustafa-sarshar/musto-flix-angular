@@ -118,7 +118,7 @@ export class MovieCardComponent implements OnInit {
 
   onClickGenres(genres: Genre[]): void {
     this.dialog.open(GenresComponent, {
-      width: "80%",
+      width: "95%",
       minWidth: "250px",
       maxWidth: "480px",
     }).componentInstance.genres = genres;
@@ -126,7 +126,7 @@ export class MovieCardComponent implements OnInit {
 
   onClickDirectors(directors: Director[]): void {
     this.dialog.open(DirectorsComponent, {
-      width: "80%",
+      width: "95%",
       minWidth: "250px",
       maxWidth: "480px",
     }).componentInstance.directors = directors;
@@ -134,7 +134,7 @@ export class MovieCardComponent implements OnInit {
 
   onClickStars(stars: Actor[]): void {
     this.dialog.open(StarsComponent, {
-      width: "80%",
+      width: "95%",
       minWidth: "250px",
       maxWidth: "480px",
     }).componentInstance.stars = stars;

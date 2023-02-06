@@ -5,12 +5,12 @@
       <mat-card-header>
         <mat-card-title class="user-card-title">{{username}}</mat-card-title>
       </mat-card-header>
-      <mat-dialog-content>
+      <mat-dialog-content class="user-card-body">
         <form autoComplete="off">
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input matInput [(ngModel)]="inputData.username" type="text" name="username" placeholder="username"
-              id="username" required>
+              id="username">
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field>
           <mat-form-field appearance="outline">
@@ -24,8 +24,7 @@
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput [(ngModel)]="inputData.email" type="email" name="email" placeholder="Email" id="email"
-              required>
+            <input matInput [(ngModel)]="inputData.email" type="email" name="email" placeholder="Email" id="email">
             <mat-icon matSuffix>mail</mat-icon>
           </mat-form-field>
           <mat-form-field appearance="outline">

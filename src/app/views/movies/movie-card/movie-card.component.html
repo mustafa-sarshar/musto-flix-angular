@@ -11,14 +11,14 @@
       </mat-dialog-content>
       <mat-card-footer class="movie-card-footer">
         <mat-card-actions>
-          <button mat-button color="primary" (click)="onClickGenres(movie.genres)">
-            Genre(s)
+          <button mat-button color="primary" matTooltip="Genre(s)" (click)="onClickGenres(movie.genres)">
+            <mat-icon>category</mat-icon>
           </button>
-          <button mat-button color="primary" (click)="onClickDirectors(movie.directors)">
-            Director(s)
+          <button mat-button color="primary" matTooltip="Director(s)" (click)="onClickDirectors(movie.directors)">
+            <mat-icon>record_voice_over</mat-icon>
           </button>
-          <button mat-button color="primary" (click)="onClickStars(movie.stars)">
-            Star(s)
+          <button mat-button color="primary" matTooltip="Star(s)" (click)="onClickStars(movie.stars)">
+            <mat-icon matTooltip="Star(s)">theater_comedy</mat-icon>
           </button>
         </mat-card-actions>
         <mat-card-actions>

@@ -28,13 +28,14 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Birth date</mat-label>
-        <input matInput [(ngModel)]="inputData.birth" type="date" name="birth" placeholder="birth" id="birth">
+        <input matInput [(ngModel)]="inputData.birth" type="date" name="birth" placeholder="birth" id="birth" required>
         <mat-icon matSuffix>calendar_month</mat-icon>
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-stroked-button type="button" (click)="onSubmitForm()" class="button-profile">Sign Up</button>
-    <button mat-stroked-button type="button" (click)="onClickCancel()" class="button-profile" color="warn">Cancel</button>
+    <button mat-stroked-button type="button" (click)="onClickCancel()" class="button-profile"
+      color="warn">Cancel</button>
   </mat-card-actions>
 </mat-card>

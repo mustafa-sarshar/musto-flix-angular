@@ -23,14 +23,11 @@ import { RegistrationComponent } from "./views/users/registration/registration.c
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { AppMaterialModule } from "./app-material.module";
-import { GenreComponent } from "./views/movies/genre/genre.component";
-import { DirectorComponent } from "./views/movies/director/director.component";
-import { StarComponent } from "./views/movies/star/star.component";
 import { StarsComponent } from "./views/movies/stars/stars.component";
 import { DirectorsComponent } from "./views/movies/directors/directors.component";
 import { GenresComponent } from "./views/movies/genres/genres.component";
 import { MainNavComponent } from "./views/main-nav/main-nav.component";
-import { DialogConfirmationComponent } from "./views/dialog-confirmation/dialog-confirmation.component";
+import { PageFooterComponent } from "./views/page-footer/page-footer.component";
 
 @NgModule({
   declarations: [
@@ -40,14 +37,11 @@ import { DialogConfirmationComponent } from "./views/dialog-confirmation/dialog-
     RegistrationComponent,
     MovieCardComponent,
     WelcomePageComponent,
-    GenreComponent,
-    DirectorComponent,
-    StarComponent,
     StarsComponent,
     DirectorsComponent,
     GenresComponent,
-    DialogConfirmationComponent,
     MainNavComponent,
+    PageFooterComponent,
   ],
   imports: [
     BrowserModule,

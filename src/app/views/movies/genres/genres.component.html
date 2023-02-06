@@ -1,5 +1,8 @@
 <mat-accordion>
-  <p class="accordion-title">{{genres.length > 1 ? 'Genres:' : 'Genre:'}}</p>
+  <div class="accordion-title" matTooltip="{{genres.length > 1 ? 'Genres' : 'Genre'}}">
+    <mat-icon color="primary">category</mat-icon>
+    <span>{{genres.length > 1 ? 'Genres' : 'Genre'}}</span>
+  </div>
   <mat-expansion-panel class="accordion-item" *ngFor=" let genre of genres">
     <mat-expansion-panel-header>
       <mat-panel-title>

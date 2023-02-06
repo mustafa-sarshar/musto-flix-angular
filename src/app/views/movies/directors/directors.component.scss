@@ -1,6 +1,14 @@
 .accordion {
   &-title {
+    margin: 1.5rem auto;
+    width: 95%;
     text-align: center;
+    border-bottom: 1px solid black;
+
+    * {
+      vertical-align: middle;
+      margin: 5px;
+    }
   }
 
   &-item {

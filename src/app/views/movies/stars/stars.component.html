@@ -1,5 +1,8 @@
 <mat-accordion>
-  <p class="accordion-title">{{stars.length > 1 ? 'Stars:' : 'Star:'}}</p>
+  <div class="accordion-title" matTooltip="{{stars.length > 1 ? 'Stars' : 'Star'}}">
+    <mat-icon color="primary">theater_comedy</mat-icon>
+    <span>{{stars.length > 1 ? 'Stars' : 'Star'}}</span>
+  </div>
   <mat-expansion-panel class="accordion-item" *ngFor=" let star of stars">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -10,10 +13,10 @@
       <p>{{star.bio}}</p>
     </mat-panel-description>
     <mat-panel-description>
-      <small><b>Birth:</b> {{star.birth | date}}</small>
+      <small><b>Birth:</b> {{(star.birth | date) || '---'}}</small>
     </mat-panel-description>
     <mat-panel-description>
-      <small><b>Death:</b> {{star.death | date}}</small>
+      <small><b>Death:</b> {{(star.death | date) || '---'}}</small>
     </mat-panel-description>
   </mat-expansion-panel>
 </mat-accordion>
