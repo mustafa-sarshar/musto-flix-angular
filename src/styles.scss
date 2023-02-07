@@ -79,6 +79,9 @@ body {
   }
 }
 
-.text-hint {
-  color: darkred;
+.error {
+  &-message {
+    color: darkred;
+    text-align: center;
+  }
 }

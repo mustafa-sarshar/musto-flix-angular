@@ -87,7 +87,7 @@ export class ProfileComponent implements OnInit {
           this.router.navigate(["/movies"]);
         },
         (error) => {
-          console.error(error.message);
+          console.error("Update user profile error:", error.message);
           this.errorMessage = error.message;
           this.snackBar.open("Something went wrong! Please try again!", "OK", {
             duration: 2000,
