@@ -1,4 +1,4 @@
-# MustFlixAngular
+# Musto Flix (Angular)
 
 ## OBJECTIVES
 
@@ -6,7 +6,7 @@
 
 ## THE 5 W’s
 
-- Who — The users of the [Musto Flix]() movie app and codebase, including other developers and designers.
+- Who — The users of the [Musto Flix](https://mustafa-sarshar.github.io/musto-flix-angular/welcome) movie app and codebase, including other developers and designers.
 - What — A single-page, responsive movie app built with Angular, with routing and several interface views. The client-side developed in this Achievement will support the existing server-side [MovieApi](https://github.com/mustafa-sarshar/movie-api) by facilitating user requests and rendering the response from the server-side via a number of different interface views. The app will be accompanied by relevant documentation and handoff deliverables, including a kanban board containing user stories and story points.
 - When — Users will be able to use the app whenever they want to read information about different movies or update their user information.
 - Where — The app will be hosted online. It is responsive and can therefore be used anywhere and on any device, giving all users an equal experience.
