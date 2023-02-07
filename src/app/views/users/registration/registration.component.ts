@@ -32,11 +32,11 @@ export class RegistrationComponent implements OnInit {
         });
       },
       (error) => {
+        console.error("Registration error:", error.message);
         this.snackBar.open("Something went wrong! Please try again.", "OK", {
           duration: 2000,
           panelClass: ["red-snackbar", "login-snackbar"],
         });
-        console.error("Registration error:", error.message);
       }
     );
   }
