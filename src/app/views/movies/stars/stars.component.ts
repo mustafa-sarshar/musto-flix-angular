@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { ApiService } from "src/app/services/api.service";
-import { Actor } from "src/models";
+
+import { Actor } from "src/app/shared/models";
 
 @Component({
   selector: "app-stars",
@@ -10,9 +10,5 @@ import { Actor } from "src/models";
 export class StarsComponent {
   stars: Actor[] = [];
 
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    console.log("directors received:", this.stars);
-  }
+  constructor() {}
 }

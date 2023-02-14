@@ -1,16 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { ApiService } from "src/app/services/api.service";
-import { checkIsTokenExpired } from "src/app/utils";
+import { UsersService } from "src/app/shared/services/users.service";
+import { MoviesService } from "src/app/shared/services/movies.service";
+import { checkIsTokenExpired } from "src/app/shared/utils";
 
 import { DirectorsComponent } from "../directors/directors.component";
 import { GenresComponent } from "../genres/genres.component";
 import { StarsComponent } from "../stars/stars.component";
 
-import { Actor, Director, Genre, Movie } from "src/models";
+import { Actor, Director, Genre, Movie } from "src/app/shared/models";
 
 @Component({
   selector: "app-movie-card",
@@ -22,7 +24,8 @@ export class MovieCardComponent implements OnInit {
   favorites: string[] = [];
 
   constructor(
-    private apiService: ApiService,
+    private moviesService: MoviesService,
+    private usersService: UsersService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
@@ -38,7 +41,7 @@ export class MovieCardComponent implements OnInit {
   }
 
   getMovies(): void {
-    this.apiService.getMoviesAll().subscribe((data: any) => {
+    this.moviesService.getMoviesAll().subscribe((data: any) => {
       this.movies = data;
       // return this.movies;
     });
@@ -64,7 +67,7 @@ export class MovieCardComponent implements OnInit {
   onClickToggleFavorite(movieId: string): void {
     if (this.checkMovieIsFavorite(movieId)) {
       console.log("Lets remove it", movieId);
-      this.apiService.removeFavoriteMovieFromServer(movieId).subscribe(
+      this.usersService.removeFavoriteMovieFromServer(movieId).subscribe(
         (response) => {
           console.log("Success", response);
           this.removeFavoriteMovieFromLocalStorage(movieId);
@@ -83,7 +86,7 @@ export class MovieCardComponent implements OnInit {
       );
     } else {
       console.log("Lets add it", movieId);
-      this.apiService.addFavoriteMovieToServer(movieId).subscribe(
+      this.usersService.addFavoriteMovieToServer(movieId).subscribe(
         (response) => {
           console.log("Success", response);
           this.addFavoriteMovieToLocalStorage(movieId);

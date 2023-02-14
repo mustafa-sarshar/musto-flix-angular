@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { checkIsTokenExpired } from "src/app/utils";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+
+import { checkIsTokenExpired } from "src/app/shared/utils";
 
 @Component({
   selector: "app-main-nav",

@@ -1,9 +1,11 @@
 import { Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
+
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { ApiService } from "src/app/services/api.service";
-import { UserLoginCredentials } from "src/models";
+
+import { AuthService } from "src/app/shared/services/auth.service";
+import { UserLoginCredentials } from "src/app/shared/models";
 
 @Component({
   selector: "app-login",
@@ -15,14 +17,14 @@ export class LoginComponent {
   hidePasswordValue = true;
 
   constructor(
-    private apiService: ApiService,
+    private authService: AuthService,
     public dialogRef: MatDialogRef<LoginComponent>,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
   onSubmitForm() {
-    this.apiService.userLogin(this.inputData).subscribe(
+    this.authService.userLogin(this.inputData).subscribe(
       (result) => {
         localStorage.clear();
         localStorage.setItem("username", result.user.username);

@@ -1,18 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { ApiService } from "src/app/services/api.service";
-import { Director } from "src/models";
+import { Component } from "@angular/core";
+
+import { Director } from "src/app/shared/models";
 
 @Component({
   selector: "app-directors",
   templateUrl: "./directors.component.html",
   styleUrls: ["./directors.component.scss"],
 })
-export class DirectorsComponent implements OnInit {
+export class DirectorsComponent {
   directors: Director[] = [];
 
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    console.log("directors received:", this.directors);
-  }
+  constructor() {}
 }

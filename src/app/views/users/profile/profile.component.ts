@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Dialog } from "@angular/cdk/dialog";
 import { Router } from "@angular/router";
+
+import { Dialog } from "@angular/cdk/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { ApiService } from "src/app/services/api.service";
-import { checkIsTokenExpired } from "src/app/utils";
-import { UserUpdateCredentials } from "src/models";
+import { UsersService } from "src/app/shared/services/users.service";
+import { checkIsTokenExpired } from "src/app/shared/utils";
+import { UserUpdateCredentials } from "src/app/shared/models";
 
 @Component({
   selector: "app-profile",
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit {
   errorMessage = "";
 
   constructor(
-    private apiService: ApiService,
+    private usersService: UsersService,
     public dialog: Dialog,
     private snackBar: MatSnackBar,
     private router: Router
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
     if (checkIsTokenExpired()) {
       this.router.navigate(["/welcome"]);
     } else {
-      this.apiService.getUser().subscribe(
+      this.usersService.getUser().subscribe(
         (response) => {
           console.log(response);
           if (response) {
@@ -76,7 +77,7 @@ export class ProfileComponent implements OnInit {
     if (this.username) {
       const dataUpdate = this.getDataUpdate();
       console.log("dataUpdate:", dataUpdate);
-      this.apiService.updateUser(this.inputData).subscribe(
+      this.usersService.updateUser(this.inputData).subscribe(
         (response) => {
           console.log(response);
           this.snackBar.open("User profile data updated successfully!", "OK", {
@@ -101,7 +102,7 @@ export class ProfileComponent implements OnInit {
   onClickDeleteAccount(): void {
     console.log("onClickDeleteAccount");
     if (this.username) {
-      this.apiService.deleteUser().subscribe(
+      this.usersService.deleteUser().subscribe(
         (response) => {
           console.log(response);
           this.snackBar.open("User profile deleted successfully!", "OK", {
