@@ -3,6 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 
 import { LoginComponent } from "../users/login/login.component";
 import { RegistrationComponent } from "../users/registration/registration.component";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-welcome-page",
@@ -10,10 +11,11 @@ import { RegistrationComponent } from "../users/registration/registration.compon
   styleUrls: ["./welcome-page.component.scss"],
 })
 export class WelcomePageComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  constructor(private authService: AuthService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     localStorage.clear();
+    this.authService.username = "";
   }
 
   onOpenUserLoginDialog(): void {

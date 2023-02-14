@@ -1,28 +1,27 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
-
-import { DialogModule } from "@angular/cdk/dialog";
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
+import { DialogModule } from "@angular/cdk/dialog";
 import { LayoutModule } from "@angular/cdk/layout";
 
-import { ApiService } from "./services/api.service";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppMaterialModule } from "./app-material.module";
+import { AppComponent } from "./app.component";
+
+import { UsersService } from "./shared/services/users.service";
+import { MoviesService } from "./shared/services/movies.service";
+import { AuthService } from "./shared/services/auth.service";
+
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { LeavePageGuard } from "./shared/guards/leave-page.guard";
 
 import { LoginComponent } from "./views/users/login/login.component";
 import { ProfileComponent } from "./views/users/profile/profile.component";
 import { RegistrationComponent } from "./views/users/registration/registration.component";
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
-import { AppMaterialModule } from "./app-material.module";
 import { StarsComponent } from "./views/movies/stars/stars.component";
 import { DirectorsComponent } from "./views/movies/directors/directors.component";
 import { GenresComponent } from "./views/movies/genres/genres.component";
@@ -53,13 +52,14 @@ import { PageFooterComponent } from "./views/page-footer/page-footer.component";
     ReactiveFormsModule,
     AppMaterialModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
   ],
-  providers: [ApiService],
+  providers: [
+    UsersService,
+    MoviesService,
+    AuthService,
+    AuthGuard,
+    LeavePageGuard,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,18 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { ApiService } from "src/app/services/api.service";
-import { Genre } from "src/models";
+import { Component } from "@angular/core";
+
+import { Genre } from "src/app/shared/models";
 
 @Component({
   selector: "app-genres",
   templateUrl: "./genres.component.html",
   styleUrls: ["./genres.component.scss"],
 })
-export class GenresComponent implements OnInit {
+export class GenresComponent {
   genres: Genre[] = [];
 
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit(): void {
-    console.log("Genres received:", this.genres);
-  }
+  constructor() {}
 }

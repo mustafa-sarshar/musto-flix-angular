@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ApiService } from "src/app/services/api.service";
-import { UserRegistrationCredentials } from "src/models";
+
+import { UsersService } from "src/app/shared/services/users.service";
+import { UserRegistrationCredentials } from "src/app/shared/models";
 
 @Component({
   selector: "app-registration",
@@ -14,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   hidePasswordValue = true;
 
   constructor(
-    private apiService: ApiService,
+    private usersService: UsersService,
     public dialogRef: MatDialogRef<RegistrationComponent>,
     private snackBar: MatSnackBar
   ) {}
@@ -22,7 +23,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmitForm(): void {
-    this.apiService.userRegistration(this.inputData).subscribe(
+    this.usersService.userRegistration(this.inputData).subscribe(
       (result) => {
         console.log(result);
         this.dialogRef.close();

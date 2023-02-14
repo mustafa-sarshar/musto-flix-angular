@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { checkIsTokenExpired } from "src/app/utils";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-main-nav",
@@ -21,7 +22,8 @@ export class MainNavComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -32,11 +34,8 @@ export class MainNavComponent implements OnInit {
   }
 
   onClickAppBrand(): void {
-    if (checkIsTokenExpired()) {
-      this.router.navigate(["/welcome"]);
-    } else {
-      this.router.navigate(["/movies"]);
-    }
+    console.log("username:", this.authService.username);
+    this.router.navigate(["/movies"]);
   }
 
   onClickUserProfile(): void {
@@ -45,6 +44,7 @@ export class MainNavComponent implements OnInit {
 
   onClickLogout(): void {
     localStorage.clear();
+    this.authService.username = "";
     this.router.navigate(["/welcome"]);
   }
 }

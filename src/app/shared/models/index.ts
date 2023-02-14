@@ -1,4 +1,4 @@
-class UserRegistrationCredentials {
+export class UserRegistrationCredentials {
   constructor(
     public username: string,
     public pass: string,
@@ -7,11 +7,11 @@ class UserRegistrationCredentials {
   ) {}
 }
 
-class UserLoginCredentials {
+export class UserLoginCredentials {
   constructor(public username: string, public pass: string) {}
 }
 
-class UserUpdateCredentials {
+export class UserUpdateCredentials {
   constructor(
     public username: string,
     public pass: string,
@@ -20,7 +20,7 @@ class UserUpdateCredentials {
   ) {}
 }
 
-class Person {
+export class Person {
   constructor(
     public _id: string,
     public name: string,
@@ -30,7 +30,7 @@ class Person {
   ) {}
 }
 
-class Director extends Person {
+export class Director extends Person {
   constructor(
     _id: string,
     name: string,
@@ -42,7 +42,7 @@ class Director extends Person {
   }
 }
 
-class Actor extends Person {
+export class Actor extends Person {
   constructor(
     _id: string,
     name: string,
@@ -54,11 +54,11 @@ class Actor extends Person {
   }
 }
 
-class Genre {
+export class Genre {
   constructor(public _id: string, public name: string, public des: string) {}
 }
 
-class Movie {
+export class Movie {
   constructor(
     public _id: string,
     public title: string,
@@ -70,13 +70,3 @@ class Movie {
     public featured: boolean
   ) {}
 }
-
-export {
-  UserRegistrationCredentials,
-  UserLoginCredentials,
-  UserUpdateCredentials,
-  Director,
-  Actor,
-  Genre,
-  Movie,
-};

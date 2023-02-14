@@ -1,61 +1,75 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Router, UrlTree } from "@angular/router";
+
 import { Dialog } from "@angular/cdk/dialog";
-import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { ApiService } from "src/app/services/api.service";
-import { checkIsTokenExpired } from "src/app/utils";
-import { UserUpdateCredentials } from "src/models";
+import { UsersService } from "src/app/shared/services/users.service";
+import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
+
+import { UserUpdateCredentials } from "src/app/shared/models";
+import { Observable } from "rxjs";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, CanDeactivateComponent {
   @Input() inputData = new UserUpdateCredentials("", "", "", "");
   hidePasswordValue = true;
   username = "";
   errorMessage = "";
+  changesSaved = false;
 
   constructor(
-    private apiService: ApiService,
+    private usersService: UsersService,
+    private authService: AuthService,
     public dialog: Dialog,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if (checkIsTokenExpired()) {
-      this.router.navigate(["/welcome"]);
-    } else {
-      this.apiService.getUser().subscribe(
-        (response) => {
-          console.log(response);
-          if (response) {
-            this.username = response.username;
-            this.inputData.username = response.username;
-            this.inputData.pass = "";
-            this.inputData.email = response.email;
-            this.inputData.birth = response.birth.toString().slice(0, 10);
-          }
-          this.snackBar.open("User profile data fetched successfully!", "OK", {
-            duration: 2000,
-            panelClass: ["green-snackbar", "login-snackbar"],
-          });
-        },
-        (error) => {
-          console.error("Profile error:", error);
-          this.snackBar.open(
-            "Something went wrong! User's profile data couldn't get fetched.",
-            "OK",
-            {
-              duration: 2000,
-              panelClass: ["red-snackbar", "login-snackbar"],
-            }
-          );
+    this.usersService.getUser().subscribe(
+      (response) => {
+        console.log(response);
+        if (response) {
+          this.username = response.username;
+          this.inputData.username = response.username;
+          this.inputData.pass = "";
+          this.inputData.email = response.email;
+          this.inputData.birth = response.birth.toString().slice(0, 10);
         }
-      );
+        this.snackBar.open("User profile data fetched successfully!", "OK", {
+          duration: 2000,
+          panelClass: ["green-snackbar", "login-snackbar"],
+        });
+      },
+      (error) => {
+        console.error("Profile error:", error);
+        this.snackBar.open(
+          "Something went wrong! User's profile data couldn't get fetched.",
+          "OK",
+          {
+            duration: 2000,
+            panelClass: ["red-snackbar", "login-snackbar"],
+          }
+        );
+      }
+    );
+  }
+
+  canDeactivate():
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    if (!this.changesSaved) {
+      return confirm("Do you want to discard the changes?");
+    } else {
+      return true;
     }
   }
 
@@ -76,7 +90,7 @@ export class ProfileComponent implements OnInit {
     if (this.username) {
       const dataUpdate = this.getDataUpdate();
       console.log("dataUpdate:", dataUpdate);
-      this.apiService.updateUser(this.inputData).subscribe(
+      this.usersService.updateUser(this.inputData).subscribe(
         (response) => {
           console.log(response);
           this.snackBar.open("User profile data updated successfully!", "OK", {
@@ -84,6 +98,8 @@ export class ProfileComponent implements OnInit {
             panelClass: ["green-snackbar", "login-snackbar"],
           });
           localStorage.setItem("username", this.inputData.username);
+          this.authService.username = this.inputData.username;
+          this.changesSaved = true;
           this.router.navigate(["/movies"]);
         },
         (error) => {
@@ -93,6 +109,7 @@ export class ProfileComponent implements OnInit {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
+          this.changesSaved = false;
         }
       );
     }
@@ -101,7 +118,7 @@ export class ProfileComponent implements OnInit {
   onClickDeleteAccount(): void {
     console.log("onClickDeleteAccount");
     if (this.username) {
-      this.apiService.deleteUser().subscribe(
+      this.usersService.deleteUser().subscribe(
         (response) => {
           console.log(response);
           this.snackBar.open("User profile deleted successfully!", "OK", {
