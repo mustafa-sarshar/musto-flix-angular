@@ -5,10 +5,11 @@ import { Dialog } from "@angular/cdk/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
-import { CanDeactivateComponent } from "src/app/shared/guards/leave-editing.guard";
+import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
 
 import { UserUpdateCredentials } from "src/app/shared/models";
 import { Observable } from "rxjs";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
   selector: "app-profile",
@@ -24,6 +25,7 @@ export class ProfileComponent implements OnInit, CanDeactivateComponent {
 
   constructor(
     private usersService: UsersService,
+    private authService: AuthService,
     public dialog: Dialog,
     private snackBar: MatSnackBar,
     private router: Router
@@ -96,6 +98,7 @@ export class ProfileComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["green-snackbar", "login-snackbar"],
           });
           localStorage.setItem("username", this.inputData.username);
+          this.authService.username = this.inputData.username;
           this.changesSaved = true;
           this.router.navigate(["/movies"]);
         },

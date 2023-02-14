@@ -15,7 +15,7 @@ import { MoviesService } from "./shared/services/movies.service";
 import { AuthService } from "./shared/services/auth.service";
 
 import { AuthGuard } from "./shared/guards/auth.guard";
-import { LeaveEditingGuard } from "./shared/guards/leave-editing.guard";
+import { LeavePageGuard } from "./shared/guards/leave-page.guard";
 
 import { LoginComponent } from "./views/users/login/login.component";
 import { ProfileComponent } from "./views/users/profile/profile.component";
@@ -58,7 +58,7 @@ import { PageFooterComponent } from "./views/page-footer/page-footer.component";
     MoviesService,
     AuthService,
     AuthGuard,
-    LeaveEditingGuard,
+    LeavePageGuard,
   ],
   bootstrap: [AppComponent],
 })

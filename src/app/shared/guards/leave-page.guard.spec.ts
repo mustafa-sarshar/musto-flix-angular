@@ -1,13 +1,13 @@
 import { TestBed } from "@angular/core/testing";
 
-import { LeaveEditingGuard } from "./leave-editing.guard";
+import { LeavePageGuard } from "./leave-page.guard";
 
-describe("LeaveEditingGuard", () => {
-  let guard: LeaveEditingGuard;
+describe("LeavePageGuard", () => {
+  let guard: LeavePageGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(LeaveEditingGuard);
+    guard = TestBed.inject(LeavePageGuard);
   });
 
   it("should be created", () => {

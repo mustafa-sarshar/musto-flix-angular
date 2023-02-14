@@ -18,9 +18,7 @@ export interface CanDeactivateComponent {
 @Injectable({
   providedIn: "root",
 })
-export class LeaveEditingGuard
-  implements CanDeactivate<CanDeactivateComponent>
-{
+export class LeavePageGuard implements CanDeactivate<CanDeactivateComponent> {
   canDeactivate(
     component: CanDeactivateComponent,
     currentRoute: ActivatedRouteSnapshot,

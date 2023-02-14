@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -7,32 +6,50 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { UsersService } from "src/app/shared/services/users.service";
 import { MoviesService } from "src/app/shared/services/movies.service";
 
+import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
+
 import { DirectorsComponent } from "../directors/directors.component";
 import { GenresComponent } from "../genres/genres.component";
 import { StarsComponent } from "../stars/stars.component";
 
 import { Actor, Director, Genre, Movie } from "src/app/shared/models";
+import { UrlTree } from "@angular/router";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-movie-card",
   templateUrl: "./movie-card.component.html",
   styleUrls: ["./movie-card.component.scss"],
 })
-export class MovieCardComponent implements OnInit {
+export class MovieCardComponent implements OnInit, CanDeactivateComponent {
   movies: Movie[] = [];
   favorites: string[] = [];
+  updatingFavoritesMode = false;
 
   constructor(
     private moviesService: MoviesService,
     private usersService: UsersService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private router: Router
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.favorites = localStorage.getItem("favorites").split(",");
     this.loadMovies();
+  }
+
+  canDeactivate():
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    if (this.updatingFavoritesMode) {
+      return confirm(
+        "Favorite list is getting updated now! Do you really want to leave the page?"
+      );
+    } else {
+      return true;
+    }
   }
 
   loadMovies(): void {
@@ -59,12 +76,14 @@ export class MovieCardComponent implements OnInit {
   }
 
   onClickToggleFavorite(movieId: string): void {
+    this.updatingFavoritesMode = true;
     if (this.checkMovieIsFavorite(movieId)) {
       console.log("Lets remove it", movieId);
       this.usersService.removeFavoriteMovieFromServer(movieId).subscribe(
         (response) => {
           console.log("Success", response);
           this.removeFavoriteMovieFromLocalStorage(movieId);
+          this.updatingFavoritesMode = false;
           this.snackBar.open("Movie remove from favorites.", "OK", {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
@@ -72,6 +91,7 @@ export class MovieCardComponent implements OnInit {
         },
         (error) => {
           console.error("Add to favorites error:", error);
+          this.updatingFavoritesMode = false;
           this.snackBar.open("Something went wrong!", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
@@ -84,6 +104,7 @@ export class MovieCardComponent implements OnInit {
         (response) => {
           console.log("Success", response);
           this.addFavoriteMovieToLocalStorage(movieId);
+          this.updatingFavoritesMode = false;
           this.snackBar.open("Movie added to favorites.", "OK", {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
@@ -91,6 +112,7 @@ export class MovieCardComponent implements OnInit {
         },
         (error) => {
           console.error("Add to favorites error:", error);
+          this.updatingFavoritesMode = false;
           this.snackBar.open("Something went wrong!", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
