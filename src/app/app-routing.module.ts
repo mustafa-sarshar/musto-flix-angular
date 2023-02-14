@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { AuthGuard } from "./shared/guards/auth.guard";
-import { EnterDataGuard } from "./shared/guards/enter-data.guard";
+import { LeaveEditingGuard } from "./shared/guards/leave-editing.guard";
 
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: "profile",
     component: ProfileComponent,
     canActivate: [AuthGuard],
-    canDeactivate: [EnterDataGuard],
+    canDeactivate: [LeaveEditingGuard],
   },
   { path: "**", redirectTo: "welcome", pathMatch: "full" },
 ];

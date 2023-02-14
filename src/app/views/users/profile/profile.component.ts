@@ -5,7 +5,7 @@ import { Dialog } from "@angular/cdk/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
-import { CanDeactivateComponent } from "src/app/shared/guards/enter-data.guard";
+import { CanDeactivateComponent } from "src/app/shared/guards/leave-editing.guard";
 
 import { UserUpdateCredentials } from "src/app/shared/models";
 import { Observable } from "rxjs";

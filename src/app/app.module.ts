@@ -14,6 +14,9 @@ import { UsersService } from "./shared/services/users.service";
 import { MoviesService } from "./shared/services/movies.service";
 import { AuthService } from "./shared/services/auth.service";
 
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { LeaveEditingGuard } from "./shared/guards/leave-editing.guard";
+
 import { LoginComponent } from "./views/users/login/login.component";
 import { ProfileComponent } from "./views/users/profile/profile.component";
 import { RegistrationComponent } from "./views/users/registration/registration.component";
@@ -50,7 +53,13 @@ import { PageFooterComponent } from "./views/page-footer/page-footer.component";
     AppMaterialModule,
     LayoutModule,
   ],
-  providers: [UsersService, MoviesService, AuthService],
+  providers: [
+    UsersService,
+    MoviesService,
+    AuthService,
+    AuthGuard,
+    LeaveEditingGuard,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
