@@ -1,13 +1,3 @@
-function checkIsTokenExpired(): boolean {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return true;
-  } else {
-    const expiry = JSON.parse(atob(token.split(".")[1])).exp;
-    return Math.floor(new Date().getTime() / 1000) >= expiry;
-  }
-}
-
 interface DateTimeFormatOptions {
   formatMatcher?: "basic" | "best fit" | "best fit" | undefined;
   dateStyle?: "full" | "long" | "medium" | "short" | undefined;
@@ -42,4 +32,4 @@ function dateFormat(
   else throw new Error("The format couldn't be recognized");
 }
 
-export { checkIsTokenExpired, dateFormat };
+export { dateFormat };

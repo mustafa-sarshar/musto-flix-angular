@@ -9,7 +9,7 @@ import { UserLoginCredentials } from "../models";
   providedIn: "root",
 })
 export class AuthService {
-  loggedIn = false;
+  username = "";
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +26,30 @@ export class AuthService {
         }
       )
       .pipe(catchError(this.handleError));
+  }
+
+  public isAuthenticated() {
+    const promise = new Promise((resolve, reject) => {
+      const usernameSaved = localStorage.getItem("username");
+      console.log("usernameSaved", usernameSaved, "username:", this.username);
+      resolve(
+        usernameSaved == this.username &&
+          this.username !== "" &&
+          (usernameSaved !== undefined || usernameSaved !== null) &&
+          !this.isTokenExpired()
+      );
+    });
+    return promise;
+  }
+
+  private isTokenExpired(): boolean {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return true;
+    } else {
+      const expiry = JSON.parse(atob(token.split(".")[1])).exp;
+      return Math.floor(new Date().getTime() / 1000) >= expiry;
+    }
   }
 
   // Handle Errors

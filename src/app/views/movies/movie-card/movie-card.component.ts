@@ -6,7 +6,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
 import { MoviesService } from "src/app/shared/services/movies.service";
-import { checkIsTokenExpired } from "src/app/shared/utils";
 
 import { DirectorsComponent } from "../directors/directors.component";
 import { GenresComponent } from "../genres/genres.component";
@@ -32,18 +31,13 @@ export class MovieCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (checkIsTokenExpired()) {
-      this.router.navigate(["/welcome"]);
-    } else {
-      this.favorites = localStorage.getItem("favorites").split(",");
-      this.getMovies();
-    }
+    this.favorites = localStorage.getItem("favorites").split(",");
+    this.loadMovies();
   }
 
-  getMovies(): void {
+  loadMovies(): void {
     this.moviesService.getMoviesAll().subscribe((data: any) => {
       this.movies = data;
-      // return this.movies;
     });
   }
 

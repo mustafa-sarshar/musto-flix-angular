@@ -27,6 +27,7 @@ export class LoginComponent {
     this.authService.userLogin(this.inputData).subscribe(
       (result) => {
         localStorage.clear();
+        this.authService.username = result.user.username;
         localStorage.setItem("username", result.user.username);
         localStorage.setItem("favorites", result.user.favList.toString());
         localStorage.setItem("token", result.token);
@@ -48,6 +49,7 @@ export class LoginComponent {
   }
 
   onClickCancel(): void {
+    this.authService.username = "";
     this.dialogRef.close();
   }
 }

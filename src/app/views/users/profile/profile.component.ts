@@ -1,23 +1,26 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, UrlTree } from "@angular/router";
 
 import { Dialog } from "@angular/cdk/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
-import { checkIsTokenExpired } from "src/app/shared/utils";
+import { CanDeactivateComponent } from "src/app/shared/guards/enter-data.guard";
+
 import { UserUpdateCredentials } from "src/app/shared/models";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, CanDeactivateComponent {
   @Input() inputData = new UserUpdateCredentials("", "", "", "");
   hidePasswordValue = true;
   username = "";
   errorMessage = "";
+  changesSaved = false;
 
   constructor(
     private usersService: UsersService,
@@ -27,36 +30,44 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (checkIsTokenExpired()) {
-      this.router.navigate(["/welcome"]);
-    } else {
-      this.usersService.getUser().subscribe(
-        (response) => {
-          console.log(response);
-          if (response) {
-            this.username = response.username;
-            this.inputData.username = response.username;
-            this.inputData.pass = "";
-            this.inputData.email = response.email;
-            this.inputData.birth = response.birth.toString().slice(0, 10);
-          }
-          this.snackBar.open("User profile data fetched successfully!", "OK", {
-            duration: 2000,
-            panelClass: ["green-snackbar", "login-snackbar"],
-          });
-        },
-        (error) => {
-          console.error("Profile error:", error);
-          this.snackBar.open(
-            "Something went wrong! User's profile data couldn't get fetched.",
-            "OK",
-            {
-              duration: 2000,
-              panelClass: ["red-snackbar", "login-snackbar"],
-            }
-          );
+    this.usersService.getUser().subscribe(
+      (response) => {
+        console.log(response);
+        if (response) {
+          this.username = response.username;
+          this.inputData.username = response.username;
+          this.inputData.pass = "";
+          this.inputData.email = response.email;
+          this.inputData.birth = response.birth.toString().slice(0, 10);
         }
-      );
+        this.snackBar.open("User profile data fetched successfully!", "OK", {
+          duration: 2000,
+          panelClass: ["green-snackbar", "login-snackbar"],
+        });
+      },
+      (error) => {
+        console.error("Profile error:", error);
+        this.snackBar.open(
+          "Something went wrong! User's profile data couldn't get fetched.",
+          "OK",
+          {
+            duration: 2000,
+            panelClass: ["red-snackbar", "login-snackbar"],
+          }
+        );
+      }
+    );
+  }
+
+  canDeactivate():
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    if (!this.changesSaved) {
+      return confirm("Do you want to discard the changes?");
+    } else {
+      return true;
     }
   }
 
@@ -85,6 +96,7 @@ export class ProfileComponent implements OnInit {
             panelClass: ["green-snackbar", "login-snackbar"],
           });
           localStorage.setItem("username", this.inputData.username);
+          this.changesSaved = true;
           this.router.navigate(["/movies"]);
         },
         (error) => {
@@ -94,6 +106,7 @@ export class ProfileComponent implements OnInit {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
+          this.changesSaved = false;
         }
       );
     }
