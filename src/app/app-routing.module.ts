@@ -22,7 +22,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canDeactivate: [LeavePageGuard],
   },
-  { path: "**", redirectTo: "welcome", pathMatch: "full" },
+  { path: "**", redirectTo: "welcome", pathMatch: "prefix" },
 ];
 
 @NgModule({
