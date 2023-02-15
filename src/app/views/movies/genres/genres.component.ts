@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Genre } from "src/app/shared/models";
+import { Genre } from "src/app/shared/models/movie.model";
 
 @Component({
   selector: "app-genres",

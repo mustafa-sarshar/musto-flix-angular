@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Director } from "src/app/shared/models";
+import { Director } from "src/app/shared/models/movie.model";
 
 @Component({
   selector: "app-directors",

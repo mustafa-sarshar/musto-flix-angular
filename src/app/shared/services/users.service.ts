@@ -6,8 +6,11 @@ import {
 } from "@angular/common/http";
 import { Observable, catchError, map, throwError } from "rxjs";
 
+import {
+  UserRegistrationCredentials,
+  UserUpdateCredentials,
+} from "../models/user.model";
 import { BACKEND_SERVER_URL } from "src/configs";
-import { UserRegistrationCredentials, UserUpdateCredentials } from "../models";
 
 @Injectable({
   providedIn: "root",

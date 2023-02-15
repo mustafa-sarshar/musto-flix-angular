@@ -4,6 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { LoginComponent } from "../users/login/login.component";
 import { RegistrationComponent } from "../users/registration/registration.component";
 import { AuthService } from "src/app/shared/services/auth.service";
+import { User } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-welcome-page",
@@ -15,7 +16,7 @@ export class WelcomePageComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.clear();
-    this.authService.username = "";
+    this.authService.user = new User("", null, null, null, null, null);
   }
 
   onOpenUserLoginDialog(): void {

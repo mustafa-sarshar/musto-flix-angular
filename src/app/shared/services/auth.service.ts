@@ -2,14 +2,16 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
+import { User, UserLoginCredentials } from "../models/user.model";
+
 import { BACKEND_SERVER_URL } from "src/configs";
-import { UserLoginCredentials } from "../models";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  username = "";
+  // username = "";
+  user = new User("", null, null, null, null, null);
 
   constructor(private http: HttpClient) {}
 
@@ -28,13 +30,16 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
 
+  public getUser(): User {
+    return this.user;
+  }
+
   public isAuthenticated() {
     const promise = new Promise((resolve, reject) => {
       const usernameSaved = localStorage.getItem("username");
-      console.log("usernameSaved", usernameSaved, "username:", this.username);
       resolve(
-        usernameSaved == this.username &&
-          this.username !== "" &&
+        usernameSaved == this.user.username &&
+          this.user.username !== "" &&
           (usernameSaved !== undefined || usernameSaved !== null) &&
           !this.isTokenExpired()
       );

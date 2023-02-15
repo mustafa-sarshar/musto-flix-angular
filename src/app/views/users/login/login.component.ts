@@ -1,11 +1,12 @@
 import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Data, Router } from "@angular/router";
 
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { AuthService } from "src/app/shared/services/auth.service";
-import { UserLoginCredentials } from "src/app/shared/models";
+
+import { User, UserLoginCredentials } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-login",
@@ -25,12 +26,20 @@ export class LoginComponent {
 
   onSubmitForm() {
     this.authService.userLogin(this.inputData).subscribe(
-      (result) => {
+      (result: Data) => {
         localStorage.clear();
-        this.authService.username = result.user.username;
-        localStorage.setItem("username", result.user.username);
-        localStorage.setItem("favorites", result.user.favList.toString());
-        localStorage.setItem("token", result.token);
+        const userFetched = new User(
+          result["user"]._id,
+          result["user"].username,
+          "",
+          result["user"].email,
+          result["user"].birth,
+          result["user"].favList
+        );
+        this.authService.user = userFetched;
+        localStorage.setItem("username", userFetched.username);
+        localStorage.setItem("favorites", userFetched.favList.toString());
+        localStorage.setItem("token", result["token"]);
         this.dialogRef.close();
         this.snackBar.open("User login was successful!", "OK", {
           duration: 2000,
@@ -49,7 +58,7 @@ export class LoginComponent {
   }
 
   onClickCancel(): void {
-    this.authService.username = "";
+    this.authService.user = new User("", null, null, null, null, null);
     this.dialogRef.close();
   }
 }

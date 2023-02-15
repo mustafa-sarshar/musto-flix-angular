@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
+
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
-import { UserRegistrationCredentials } from "src/app/shared/models";
+
+import { UserRegistrationCredentials } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-registration",

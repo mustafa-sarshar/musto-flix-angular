@@ -27,6 +27,7 @@ import { DirectorsComponent } from "./views/movies/directors/directors.component
 import { GenresComponent } from "./views/movies/genres/genres.component";
 import { MainNavComponent } from "./views/main-nav/main-nav.component";
 import { PageFooterComponent } from "./views/page-footer/page-footer.component";
+import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirmation-dialog.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PageFooterComponent } from "./views/page-footer/page-footer.component";
     GenresComponent,
     MainNavComponent,
     PageFooterComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

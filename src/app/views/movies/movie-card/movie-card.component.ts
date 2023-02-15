@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { UrlTree } from "@angular/router";
+import { Observable } from "rxjs";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -12,9 +14,12 @@ import { DirectorsComponent } from "../directors/directors.component";
 import { GenresComponent } from "../genres/genres.component";
 import { StarsComponent } from "../stars/stars.component";
 
-import { Actor, Director, Genre, Movie } from "src/app/shared/models";
-import { UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
+import {
+  Actor,
+  Director,
+  Genre,
+  Movie,
+} from "src/app/shared/models/movie.model";
 
 @Component({
   selector: "app-movie-card",

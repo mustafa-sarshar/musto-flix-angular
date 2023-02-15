@@ -5,6 +5,7 @@ import { map, shareReplay } from "rxjs/operators";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 import { AuthService } from "src/app/shared/services/auth.service";
+import { User } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-main-nav",
@@ -34,17 +35,17 @@ export class MainNavComponent implements OnInit {
   }
 
   onClickAppBrand(): void {
-    console.log("username:", this.authService.username);
+    console.log("username:", this.authService.user);
     this.router.navigate(["/movies"]);
   }
 
   onClickUserProfile(): void {
-    this.router.navigate(["/profile"]);
+    this.router.navigate(["/user-profile"]);
   }
 
   onClickLogout(): void {
     localStorage.clear();
-    this.authService.username = "";
+    this.authService.user = new User("", null, null, null, null, null);
     this.router.navigate(["/welcome"]);
   }
 }

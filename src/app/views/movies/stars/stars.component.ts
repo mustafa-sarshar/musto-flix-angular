@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Actor } from "src/app/shared/models";
+import { Actor } from "src/app/shared/models/movie.model";
 
 @Component({
   selector: "app-stars",
