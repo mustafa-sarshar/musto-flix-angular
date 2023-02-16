@@ -1,0 +1,56 @@
+$break-point: 550px;
+
+.user {
+  &-card {
+    &-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+
+    &-title {
+      padding: 2rem;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    &-item {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      align-items: center;
+      margin: 1.5rem;
+      max-width: 250px;
+
+      box-shadow: none;
+      background-color: transparent;
+
+      &:first-child {
+        @media screen and (max-width: $break-point) {
+          padding-bottom: 1rem;
+          border-bottom: 1px solid lightgray;
+        }
+      }
+    }
+
+    &-body {
+      padding-top: 0.5rem;
+
+      &__userInfo {
+        margin-bottom: 0.5;
+      }
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem auto;
+}

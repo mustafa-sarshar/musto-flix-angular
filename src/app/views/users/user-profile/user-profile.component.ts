@@ -1,49 +1,48 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Data, Router, UrlTree } from "@angular/router";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router, UrlTree } from "@angular/router";
+import { NgForm } from "@angular/forms";
 import { Observable } from "rxjs";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { AuthService } from "src/app/shared/services/auth.service";
 import { UsersService } from "src/app/shared/services/users.service";
 import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
 
-import { User, UserUpdateCredentials } from "src/app/shared/models/user.model";
+import { UserUpdateCredentials } from "src/app/shared/models/user.model";
 
-import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog.component";
-import { DialogBox } from "src/app/shared/models/dialog.model";
+// To be continued ... ))
+// import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog.component";
+// import { DialogBox } from "src/app/shared/models/dialog.model";
 
 @Component({
-  selector: "app-profile",
-  templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.scss"],
+  selector: "app-user-profile",
+  templateUrl: "./user-profile.component.html",
+  styleUrls: ["./user-profile.component.scss"],
 })
-export class ProfileComponent implements OnInit, CanDeactivateComponent {
-  inputData = new User("", null, null, null, null, null);
+export class UserProfileComponent implements OnInit, CanDeactivateComponent {
+  userData = new UserUpdateCredentials(null, null, null, null);
+  @ViewChild("formEl") formData: NgForm;
   hidePasswordValue = true;
-  username = "";
   errorMessage = "";
-  changesSaved = false;
+  changesSaved = true;
+  isDataFetchingNow = false;
 
   constructor(
-    private authService: AuthService,
     private usersService: UsersService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      (data: Data) => {
-        console.log("UserProfile:", data);
-        if (data) {
-          this.username = data["user"].username;
-          this.inputData.username = data["user"].username;
-          this.inputData.email = data["user"].email;
-          this.inputData.birth = data["user"].birth.toString().slice(0, 10);
+    this.usersService.getUser().subscribe(
+      (response) => {
+        console.log("UserProfile:", response);
+        if (response) {
+          this.userData.username = response.username;
+          this.userData.email = response.email;
+          this.userData.birth = response.birth.toString().slice(0, 10);
         }
         this.snackBar.open("User profile data fetched successfully!", "OK", {
           duration: 2000,
@@ -70,16 +69,18 @@ export class ProfileComponent implements OnInit, CanDeactivateComponent {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     if (!this.changesSaved) {
-      // const dialogRef = (this.dialog.open(ConfirmationDialogComponent, {
+      // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       //   width: "250px",
       //   minWidth: "250px",
       //   maxWidth: "480px",
-      // }).componentInstance.dialogBox = new DialogBox(
+      // });
+      // dialogRef.componentInstance.dialogBox = new DialogBox(
       //   "Be careful!",
       //   "If you leave the page now, you will discard the changes!"
-      // ));
-      // console.log("Dialog Res:", dialogRef);
-
+      // );
+      // dialogRef.afterClosed().subscribe((answer) => {
+      //   console.log("answer:", answer);
+      // });
       return confirm(
         "If you leave the page now, you will discard the changes!"
       );
@@ -90,30 +91,66 @@ export class ProfileComponent implements OnInit, CanDeactivateComponent {
 
   getDataUpdate(): UserUpdateCredentials {
     const dataUpdate = new UserUpdateCredentials(null, null, null, null);
-    if (this.username !== this.inputData.username)
-      dataUpdate.username = this.inputData.username;
-
-    dataUpdate.pass = this.inputData.pass;
-    dataUpdate.email = this.inputData.email;
-    dataUpdate.birth = this.inputData.birth;
-
+    if (
+      this.formData.controls["username"].touched &&
+      this.formData.controls["username"].dirty
+    ) {
+      dataUpdate.username = this.formData.controls["username"].value.trim();
+    }
+    if (
+      this.formData.controls["pass"].touched &&
+      this.formData.controls["pass"].dirty
+    ) {
+      dataUpdate.pass = this.formData.controls["pass"].value.trim();
+    }
+    if (
+      this.formData.controls["email"].touched &&
+      this.formData.controls["email"].dirty
+    ) {
+      dataUpdate.email = this.formData.controls["email"].value.trim();
+    }
+    if (
+      this.formData.controls["birth"].touched &&
+      this.formData.controls["birth"].dirty
+    ) {
+      dataUpdate.birth = this.formData.controls["birth"].value.trim();
+    }
     return dataUpdate;
   }
 
-  onClickUpdateUserProfile(): void {
-    console.log("onClickUpdateUserProfile");
-    if (this.username) {
+  allowSubmitForm(): boolean {
+    const formDataValues = this.formData.value;
+
+    if (
+      this.formData.valid &&
+      this.formData.touched &&
+      this.formData.dirty &&
+      (formDataValues.username.trim().length >= 5 ||
+        formDataValues.pass.trim().length >= 5 ||
+        formDataValues.email.trim().length > 0 ||
+        formDataValues.birth.trim().length > 0)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onSubmitForm(): void {
+    if (this.allowSubmitForm()) {
+      const formDataValues = this.formData.value;
       const dataUpdate = this.getDataUpdate();
       console.log("dataUpdate:", dataUpdate);
-      this.usersService.updateUser(this.inputData).subscribe(
+      this.usersService.updateUser(dataUpdate).subscribe(
         (response) => {
           console.log(response);
           this.snackBar.open("User profile data updated successfully!", "OK", {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
           });
-          this.authService.user = this.inputData;
-          localStorage.setItem("username", this.inputData.username);
+          if (formDataValues.username.trim().length >= 5) {
+            localStorage.setItem("username", formDataValues.username);
+          }
           this.changesSaved = true;
           this.router.navigate(["/movies"]);
         },
@@ -131,8 +168,7 @@ export class ProfileComponent implements OnInit, CanDeactivateComponent {
   }
 
   onClickDeleteAccount(): void {
-    console.log("onClickDeleteAccount");
-    if (this.username) {
+    if (this.userData.username) {
       this.usersService.deleteUser().subscribe(
         (response) => {
           console.log(response);

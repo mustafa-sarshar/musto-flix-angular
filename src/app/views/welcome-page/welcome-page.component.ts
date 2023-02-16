@@ -3,8 +3,6 @@ import { MatDialog } from "@angular/material/dialog";
 
 import { LoginComponent } from "../users/login/login.component";
 import { RegistrationComponent } from "../users/registration/registration.component";
-import { AuthService } from "src/app/shared/services/auth.service";
-import { User } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-welcome-page",
@@ -12,11 +10,10 @@ import { User } from "src/app/shared/models/user.model";
   styleUrls: ["./welcome-page.component.scss"],
 })
 export class WelcomePageComponent implements OnInit {
-  constructor(private authService: AuthService, public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     localStorage.clear();
-    this.authService.user = new User("", null, null, null, null, null);
   }
 
   onOpenUserLoginDialog(): void {
@@ -24,6 +21,7 @@ export class WelcomePageComponent implements OnInit {
       width: "80%",
       minWidth: "250px",
       maxWidth: "480px",
+      disableClose: true,
     });
   }
 
@@ -32,6 +30,7 @@ export class WelcomePageComponent implements OnInit {
       width: "80%",
       minWidth: "250px",
       maxWidth: "480px",
+      disableClose: true,
     });
   }
 }

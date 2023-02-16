@@ -63,15 +63,6 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
     });
   }
 
-  extractDirectors(directors: Director[]): string[] {
-    const directorsNames = [];
-    directors.forEach((director) => {
-      directorsNames.push(director.name);
-    });
-
-    return directorsNames;
-  }
-
   checkMovieIsFavorite(movieId: string): boolean {
     if (this.favorites.includes(movieId)) {
       return true;
@@ -134,9 +125,12 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
 
   removeFavoriteMovieFromLocalStorage(movieId: string): void {
     const movieIdIndex = this.favorites.indexOf(movieId);
+
     if (movieIdIndex > -1) {
       this.favorites.splice(movieIdIndex, 1);
       localStorage.setItem("favorites", this.favorites.toString());
+    } else {
+      console.error("Couldn't remove the favorite movie from local storage");
     }
   }
 

@@ -4,9 +4,6 @@ import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
-import { AuthService } from "src/app/shared/services/auth.service";
-import { User } from "src/app/shared/models/user.model";
-
 @Component({
   selector: "app-main-nav",
   templateUrl: "./main-nav.component.html",
@@ -23,19 +20,17 @@ export class MainNavComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router,
-    private authService: AuthService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    const un = localStorage.getItem("username");
-    if (un) {
-      this.username = un;
+    const usernameLocal = localStorage.getItem("username");
+    if (usernameLocal) {
+      this.username = usernameLocal;
     }
   }
 
   onClickAppBrand(): void {
-    console.log("username:", this.authService.user);
     this.router.navigate(["/movies"]);
   }
 
@@ -45,7 +40,6 @@ export class MainNavComponent implements OnInit {
 
   onClickLogout(): void {
     localStorage.clear();
-    this.authService.user = new User("", null, null, null, null, null);
     this.router.navigate(["/welcome"]);
   }
 }

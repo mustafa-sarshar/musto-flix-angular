@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
-import { User, UserLoginCredentials } from "../models/user.model";
+import { UserLoginCredentials } from "../models/user.model";
 
 import { BACKEND_SERVER_URL } from "src/configs";
 
@@ -10,9 +10,6 @@ import { BACKEND_SERVER_URL } from "src/configs";
   providedIn: "root",
 })
 export class AuthService {
-  // username = "";
-  user = new User("", null, null, null, null, null);
-
   constructor(private http: HttpClient) {}
 
   public userLogin(userCredentials: UserLoginCredentials): Observable<any> {
@@ -30,17 +27,11 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
 
-  public getUser(): User {
-    return this.user;
-  }
-
   public isAuthenticated() {
     const promise = new Promise((resolve, reject) => {
       const usernameSaved = localStorage.getItem("username");
       resolve(
-        usernameSaved == this.user.username &&
-          this.user.username !== "" &&
-          (usernameSaved !== undefined || usernameSaved !== null) &&
+        (usernameSaved !== undefined || usernameSaved !== "") &&
           !this.isTokenExpired()
       );
     });

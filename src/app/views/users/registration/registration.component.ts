@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
-
-import { UserRegistrationCredentials } from "src/app/shared/models/user.model";
 
 @Component({
   selector: "app-registration",
@@ -13,8 +13,10 @@ import { UserRegistrationCredentials } from "src/app/shared/models/user.model";
   styleUrls: ["./registration.component.scss"],
 })
 export class RegistrationComponent implements OnInit {
-  @Input() inputData = new UserRegistrationCredentials("", "", "", "");
+  @ViewChild("formEl") formData: NgForm;
   hidePasswordValue = true;
+  isDataFetchingNow = false;
+  serviceSubscription = new Subscription();
 
   constructor(
     private usersService: UsersService,
@@ -25,26 +27,33 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmitForm(): void {
-    this.usersService.userRegistration(this.inputData).subscribe(
-      (result) => {
-        console.log(result);
-        this.dialogRef.close();
-        this.snackBar.open("User registration was successful!", "OK", {
-          duration: 2000,
-          panelClass: ["green-snackbar", "login-snackbar"],
-        });
-      },
-      (error) => {
-        console.error("Registration error:", error.message);
-        this.snackBar.open("Something went wrong! Please try again.", "OK", {
-          duration: 2000,
-          panelClass: ["red-snackbar", "login-snackbar"],
-        });
-      }
-    );
+    this.isDataFetchingNow = true;
+    this.serviceSubscription = this.usersService
+      .userRegistration(this.formData.value)
+      .subscribe(
+        (result) => {
+          console.log(result);
+          this.snackBar.open("User registration was successful!", "OK", {
+            duration: 2000,
+            panelClass: ["green-snackbar", "login-snackbar"],
+          });
+          this.serviceSubscription.unsubscribe();
+          this.dialogRef.close();
+        },
+        (error) => {
+          console.error("Registration error:", error.message);
+          this.snackBar.open("Something went wrong! Please try again.", "OK", {
+            duration: 2000,
+            panelClass: ["red-snackbar", "login-snackbar"],
+          });
+          this.isDataFetchingNow = false;
+        }
+      );
   }
 
   onClickCancel(): void {
+    this.isDataFetchingNow = false;
+    this.serviceSubscription.unsubscribe();
     this.dialogRef.close();
   }
 }

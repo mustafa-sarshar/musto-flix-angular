@@ -6,7 +6,9 @@
       </mat-card-header>
       <mat-dialog-content>
         <mat-card-subtitle>
-          <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-card-image">
+          <a href="{{movie.image_url}}" target="_blank" rel="noopener noreferrer">
+            <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-card-image">
+          </a>
         </mat-card-subtitle>
       </mat-dialog-content>
       <mat-card-footer class="movie-card-footer">

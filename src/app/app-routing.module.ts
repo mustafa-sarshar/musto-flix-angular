@@ -7,7 +7,7 @@ import { UserProfileResolver } from "./shared/resolver/user-profile.resolver";
 
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
-import { ProfileComponent } from "./views/users/profile/profile.component";
+import { UserProfileComponent } from "./views/users/user-profile/user-profile.component";
 
 const routes: Routes = [
   { path: "welcome", component: WelcomePageComponent },
@@ -19,12 +19,12 @@ const routes: Routes = [
   },
   {
     path: "user-profile",
-    component: ProfileComponent,
+    component: UserProfileComponent,
     canActivate: [AuthGuard],
     canDeactivate: [LeavePageGuard],
     resolve: { user: UserProfileResolver },
   },
-  { path: "**", redirectTo: "/welcome", pathMatch: "prefix" },
+  { path: "**", redirectTo: "/movies", pathMatch: "prefix" },
 ];
 
 @NgModule({

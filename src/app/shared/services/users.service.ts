@@ -40,10 +40,18 @@ export class UsersService {
   }
 
   public updateUser(userCredentials: UserUpdateCredentials): Observable<any> {
+    console.log(userCredentials);
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
+    const userDataUpdate = {};
+    if (userCredentials.username)
+      userDataUpdate["username"] = userCredentials.username;
+    if (userCredentials.pass) userDataUpdate["pass"] = userCredentials.pass;
+    if (userCredentials.email) userDataUpdate["email"] = userCredentials.email;
+    if (userCredentials.birth) userDataUpdate["birth"] = userCredentials.birth;
+    console.log(userCredentials, userDataUpdate);
     return this.http
-      .put(`${BACKEND_SERVER_URL}/users/${username}`, userCredentials, {
+      .put(`${BACKEND_SERVER_URL}/users/${username}`, userDataUpdate, {
         headers: new HttpHeaders({
           Authorization: "Bearer " + token,
         }),

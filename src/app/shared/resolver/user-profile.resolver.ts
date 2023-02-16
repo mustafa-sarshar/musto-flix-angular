@@ -4,22 +4,18 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from "@angular/router";
-import { Observable, of } from "rxjs";
-
-import { AuthService } from "../services/auth.service";
-
-import { User } from "../models/user.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class UserProfileResolver implements Resolve<User> {
-  constructor(private authService: AuthService) {}
+export class UserProfileResolver implements Resolve<string> {
+  constructor() {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<User> | User {
-    return this.authService.getUser();
+  ): Observable<string> | string {
+    return localStorage.getItem("username");
   }
 }

@@ -18,22 +18,21 @@ import { AuthGuard } from "./shared/guards/auth.guard";
 import { LeavePageGuard } from "./shared/guards/leave-page.guard";
 
 import { LoginComponent } from "./views/users/login/login.component";
-import { ProfileComponent } from "./views/users/profile/profile.component";
+import { UserProfileComponent } from "./views/users/user-profile/user-profile.component";
 import { RegistrationComponent } from "./views/users/registration/registration.component";
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { StarsComponent } from "./views/movies/stars/stars.component";
 import { DirectorsComponent } from "./views/movies/directors/directors.component";
 import { GenresComponent } from "./views/movies/genres/genres.component";
-import { MainNavComponent } from "./views/main-nav/main-nav.component";
-import { PageFooterComponent } from "./views/page-footer/page-footer.component";
+import { MainNavComponent } from "./views/ui/main-nav/main-nav.component";
+import { PageFooterComponent } from "./views/ui/page-footer/page-footer.component";
 import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirmation-dialog.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ProfileComponent,
     RegistrationComponent,
     MovieCardComponent,
     WelcomePageComponent,
@@ -43,6 +42,7 @@ import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirm
     MainNavComponent,
     PageFooterComponent,
     ConfirmationDialogComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
