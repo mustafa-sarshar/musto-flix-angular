@@ -2,16 +2,22 @@
   <div *ngIf="userData.username" class="user-card-container">
     <mat-card class="user-card-item">
       <mat-card-header>
-        <mat-card-title class="user-card-title">{{userData.username}}</mat-card-title>
+        <mat-card-title class="user-card-title">User Info</mat-card-title>
       </mat-card-header>
       <mat-card-content class="user-card-body">
         <mat-card-subtitle class="user-card-body__userInfo">
-          <p>
-            Birth date: {{userData.birth | date}}
-          </p>
-          <p>
-            Email: {{userData.email}}
-          </p>
+          <span>Username:</span>
+          <span>
+            <strong>{{userData.username}}</strong>
+          </span>
+          <span>Birth date:</span>
+          <span>
+            <strong>{{userData.birth | date:"fullDate"}}</strong>
+          </span>
+          <span>Email:</span>
+          <span>
+            <strong>{{userData.email}}</strong>
+          </span>
         </mat-card-subtitle>
       </mat-card-content>
       <mat-card-footer>
@@ -25,7 +31,7 @@
         <mat-card-title class="user-card-title">Update Form</mat-card-title>
       </mat-card-header>
       <form autoComplete="off" (ngSubmit)="onSubmitForm()" #formEl="ngForm">
-        <mat-dialog-content class="user-card-body">
+        <mat-card-content class="user-card-body">
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input matInput type="text" name="username" placeholder="username" id="username" minlength="5"
@@ -53,7 +59,7 @@
               ngModel>
             <mat-icon matSuffix>calendar_month</mat-icon>
           </mat-form-field>
-        </mat-dialog-content>
+        </mat-card-content>
         <mat-card-footer>
           <mat-card-actions>
             <button mat-stroked-button color="primary" type="submit" [disabled]="!allowSubmitForm()">

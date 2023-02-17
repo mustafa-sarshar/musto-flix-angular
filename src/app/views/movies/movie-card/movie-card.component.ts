@@ -30,6 +30,7 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
   movies: Movie[] = [];
   favorites: string[] = [];
   updatingFavoritesMode = false;
+  searchMovieInput = "";
 
   constructor(
     private moviesService: MoviesService,
@@ -156,5 +157,9 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
       minWidth: "250px",
       maxWidth: "480px",
     }).componentInstance.stars = stars;
+  }
+
+  onClickClearSearchBox(): void {
+    this.searchMovieInput = "";
   }
 }

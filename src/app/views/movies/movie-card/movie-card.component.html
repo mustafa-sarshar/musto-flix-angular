@@ -1,17 +1,36 @@
 <app-main-nav>
+  <div class="search-container">
+    <mat-card class="search-box__card">
+      <mat-card-content class="search-box__content">
+        <mat-form-field appearance="outline">
+          <mat-label>Search your favorite movie</mat-label>
+          <input matInput type="text" placeholder="enter the movie title" pattern="[a-zA-Z0-9-]+"
+            [disabled]="movies.length === 0" [(ngModel)]="searchMovieInput">
+          <mat-icon matSuffix>movie</mat-icon>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions class="search-box__actions">
+        <button mat-icon-button (click)="onClickClearSearchBox()"
+          [disabled]="movies.length === 0 || searchMovieInput.trim().length === 0" matTooltip="clear">
+          <mat-icon
+            [color]="movies.length === 0 || searchMovieInput.trim().length === 0 ? 'default' : 'warn'">backspace</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
   <div class="movie-container">
-    <mat-card *ngFor="let movie of movies; let i = index;" class="movie-card">
-      <mat-card-header class="movie-card-header">
-        <mat-card-title class="movie-card-title">{{movie.title}}</mat-card-title>
+    <mat-card *ngFor="let movie of movies | filterArray:searchMovieInput:'title'; let i = index;" class="movie-card">
+      <mat-card-header class="movie-card__header">
+        <mat-card-title class="movie-card__title">{{movie.title}}</mat-card-title>
       </mat-card-header>
       <mat-dialog-content>
         <mat-card-subtitle>
           <a href="{{movie.image_url}}" target="_blank" rel="noopener noreferrer">
-            <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-card-image">
+            <img src="{{movie.image_url}}" alt="{{movie.title}}" class="movie-card__image">
           </a>
         </mat-card-subtitle>
       </mat-dialog-content>
-      <mat-card-footer class="movie-card-footer">
+      <mat-card-footer class="movie-card__footer">
         <mat-card-actions>
           <button mat-button color="primary" matTooltip="Genre(s)" (click)="onClickGenres(movie.genres)">
             <mat-icon>category</mat-icon>

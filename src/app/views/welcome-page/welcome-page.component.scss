@@ -22,6 +22,11 @@ $break-point__xs: 576px;
   &-animation {
     padding: 1rem;
     text-align: center;
+    border-radius: 0.375rem;
+
+    img {
+      border-radius: 0.375rem;
+    }
 
     @media all and (max-width: $break-point__xs) {
       img {

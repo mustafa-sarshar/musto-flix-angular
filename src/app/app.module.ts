@@ -17,6 +17,8 @@ import { AuthService } from "./shared/services/auth.service";
 import { AuthGuard } from "./shared/guards/auth.guard";
 import { LeavePageGuard } from "./shared/guards/leave-page.guard";
 
+import { FilterArrayPipe } from "./shared/pipes/filter-array.pipe";
+
 import { LoginComponent } from "./views/users/login/login.component";
 import { UserProfileComponent } from "./views/users/user-profile/user-profile.component";
 import { RegistrationComponent } from "./views/users/registration/registration.component";
@@ -43,6 +45,7 @@ import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirm
     PageFooterComponent,
     ConfirmationDialogComponent,
     UserProfileComponent,
+    FilterArrayPipe,
   ],
   imports: [
     BrowserModule,
