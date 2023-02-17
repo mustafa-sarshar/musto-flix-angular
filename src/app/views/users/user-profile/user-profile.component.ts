@@ -118,18 +118,22 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
   }
 
   allowSubmitForm(): boolean {
-    const formDataValues = this.formData.value;
+    if (this.formData) {
+      const formDataValues = this.formData.value;
 
-    if (
-      this.formData.valid &&
-      this.formData.touched &&
-      this.formData.dirty &&
-      (formDataValues.username.trim().length >= 5 ||
-        formDataValues.pass.trim().length >= 5 ||
-        formDataValues.email.trim().length > 0 ||
-        formDataValues.birth.trim().length > 0)
-    ) {
-      return true;
+      if (
+        this.formData.valid &&
+        this.formData.touched &&
+        this.formData.dirty &&
+        (formDataValues.username.trim().length >= 5 ||
+          formDataValues.pass.trim().length >= 5 ||
+          formDataValues.email.trim().length > 0 ||
+          formDataValues.birth.trim().length > 0)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

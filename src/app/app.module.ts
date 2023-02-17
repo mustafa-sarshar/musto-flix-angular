@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DialogModule } from "@angular/cdk/dialog";
 import { LayoutModule } from "@angular/cdk/layout";
@@ -51,7 +51,6 @@ import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirm
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
     AppMaterialModule,
     LayoutModule,
   ],
