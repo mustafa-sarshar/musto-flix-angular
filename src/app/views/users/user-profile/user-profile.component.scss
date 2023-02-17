@@ -30,7 +30,7 @@ $break-point: 550px;
       background-color: transparent;
 
       &:first-child {
-        @media screen and (max-width: $break-point) {
+        @media all and (max-width: $break-point) {
           padding-bottom: 1rem;
           border-bottom: 1px solid lightgray;
         }
