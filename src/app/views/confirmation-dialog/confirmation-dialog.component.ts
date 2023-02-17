@@ -10,18 +10,19 @@ import { DialogBox } from "src/app/shared/models/dialog.model";
 })
 export class ConfirmationDialogComponent implements OnInit {
   dialogBox = new DialogBox("", "");
+  dialogType: "OK/CANCEL" | "YES/NO" = "OK/CANCEL";
 
   constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {}
 
   ngOnInit(): void {}
 
-  onClickCancel(): void {
-    console.log("Cancel");
+  onClickDecline(): void {
+    console.log("Declined");
     this.dialogRef.close(false);
   }
 
-  onClickOk(): void {
-    console.log("Ok");
+  onClickAccept(): void {
+    console.log("Accepted");
     this.dialogRef.close(true);
   }
 }

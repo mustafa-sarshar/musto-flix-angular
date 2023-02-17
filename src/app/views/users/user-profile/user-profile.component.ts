@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router, UrlTree } from "@angular/router";
+import { Router, UrlTree } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { Observable } from "rxjs";
 
@@ -11,9 +11,8 @@ import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
 
 import { UserUpdateCredentials } from "src/app/shared/models/user.model";
 
-// To be continued ... ))
-// import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog.component";
-// import { DialogBox } from "src/app/shared/models/dialog.model";
+import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog.component";
+import { DialogBox } from "src/app/shared/models/dialog.model";
 
 @Component({
   selector: "app-user-profile",
@@ -169,23 +168,41 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
 
   onClickDeleteAccount(): void {
     if (this.userData.username) {
-      this.usersService.deleteUser().subscribe(
-        (response) => {
-          console.log(response);
-          this.snackBar.open("User profile deleted successfully!", "OK", {
-            duration: 2000,
-            panelClass: ["green-snackbar", "login-snackbar"],
-          });
-          this.router.navigate(["/welcome"]);
-        },
-        (error) => {
-          console.error(error.message);
-          this.snackBar.open("Something went wrong! Please try again!", "OK", {
-            duration: 2000,
-            panelClass: ["red-snackbar", "login-snackbar"],
-          });
-        }
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: "250px",
+        minWidth: "250px",
+        maxWidth: "480px",
+      });
+      dialogRef.componentInstance.dialogBox = new DialogBox(
+        "Be careful!",
+        "Do you really want to delete your account?"
       );
+      dialogRef.componentInstance.dialogType = "YES/NO";
+      dialogRef.afterClosed().subscribe((answer) => {
+        if (answer) {
+          this.usersService.deleteUser().subscribe(
+            (response) => {
+              console.log(response);
+              this.snackBar.open("User profile deleted successfully!", "OK", {
+                duration: 2000,
+                panelClass: ["green-snackbar", "login-snackbar"],
+              });
+              this.router.navigate(["/welcome"]);
+            },
+            (error) => {
+              console.error(error.message);
+              this.snackBar.open(
+                "Something went wrong! Please try again!",
+                "OK",
+                {
+                  duration: 2000,
+                  panelClass: ["red-snackbar", "login-snackbar"],
+                }
+              );
+            }
+          );
+        }
+      });
     }
   }
 }
