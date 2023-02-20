@@ -21,7 +21,7 @@ import { DialogBox } from "src/app/shared/models/dialog.model";
 })
 export class UserProfileComponent implements OnInit, CanDeactivateComponent {
   userData = new UserUpdateCredentials(null, null, null, null);
-  @ViewChild("formEl") formData: NgForm;
+  @ViewChild("formEl") dataForm: NgForm;
   hidePasswordValue = true;
   errorMessage = "";
   changesSaved = true;
@@ -35,8 +35,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
   ) {}
 
   ngOnInit(): void {
-    this.usersService.getUser().subscribe(
-      (response) => {
+    this.usersService.getUser().subscribe({
+      next: (response) => {
         console.log("UserProfile:", response);
         if (response) {
           this.userData.username = response.username;
@@ -48,7 +48,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
           panelClass: ["green-snackbar", "login-snackbar"],
         });
       },
-      (error) => {
+      error: (error) => {
         console.error("Profile error:", error);
         this.snackBar.open(
           "Something went wrong! User's profile data couldn't get fetched.",
@@ -58,8 +58,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["red-snackbar", "login-snackbar"],
           }
         );
-      }
-    );
+      },
+    });
   }
 
   canDeactivate():
@@ -91,44 +91,44 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
   getDataUpdate(): UserUpdateCredentials {
     const dataUpdate = new UserUpdateCredentials(null, null, null, null);
     if (
-      this.formData.controls["username"].touched &&
-      this.formData.controls["username"].dirty
+      this.dataForm.controls["username"].touched &&
+      this.dataForm.controls["username"].dirty
     ) {
-      dataUpdate.username = this.formData.controls["username"].value.trim();
+      dataUpdate.username = this.dataForm.controls["username"].value.trim();
     }
     if (
-      this.formData.controls["pass"].touched &&
-      this.formData.controls["pass"].dirty
+      this.dataForm.controls["pass"].touched &&
+      this.dataForm.controls["pass"].dirty
     ) {
-      dataUpdate.pass = this.formData.controls["pass"].value.trim();
+      dataUpdate.pass = this.dataForm.controls["pass"].value.trim();
     }
     if (
-      this.formData.controls["email"].touched &&
-      this.formData.controls["email"].dirty
+      this.dataForm.controls["email"].touched &&
+      this.dataForm.controls["email"].dirty
     ) {
-      dataUpdate.email = this.formData.controls["email"].value.trim();
+      dataUpdate.email = this.dataForm.controls["email"].value.trim();
     }
     if (
-      this.formData.controls["birth"].touched &&
-      this.formData.controls["birth"].dirty
+      this.dataForm.controls["birth"].touched &&
+      this.dataForm.controls["birth"].dirty
     ) {
-      dataUpdate.birth = this.formData.controls["birth"].value.trim();
+      dataUpdate.birth = this.dataForm.controls["birth"].value.trim();
     }
     return dataUpdate;
   }
 
   allowSubmitForm(): boolean {
-    if (this.formData) {
-      const formDataValues = this.formData.value;
+    if (this.dataForm) {
+      const dataFormValues = this.dataForm.value;
 
       if (
-        this.formData.valid &&
-        this.formData.touched &&
-        this.formData.dirty &&
-        (formDataValues.username.trim().length >= 5 ||
-          formDataValues.pass.trim().length >= 5 ||
-          formDataValues.email.trim().length > 0 ||
-          formDataValues.birth.trim().length > 0)
+        this.dataForm.valid &&
+        this.dataForm.touched &&
+        this.dataForm.dirty &&
+        (dataFormValues.username.trim().length >= 5 ||
+          dataFormValues.pass.trim().length >= 5 ||
+          dataFormValues.email.trim().length > 0 ||
+          dataFormValues.birth.trim().length > 0)
       ) {
         return true;
       } else {
@@ -139,25 +139,60 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
     }
   }
 
+  onChangeInput(): void {
+    const dataInput = this.dataForm.value;
+    this.changesSaved = true;
+
+    if (
+      dataInput.username.trim().length > 0 &&
+      dataInput.username !== this.userData.username
+    ) {
+      console.log("Username changed!");
+      this.changesSaved = false;
+    }
+
+    if (dataInput.pass.trim().length > 0) {
+      console.log("Password changed!");
+      this.changesSaved = false;
+    }
+
+    if (
+      dataInput.email.trim().length > 0 &&
+      dataInput.email !== this.userData.email
+    ) {
+      console.log("Email changed!");
+      this.changesSaved = false;
+    }
+
+    if (
+      dataInput.birth.trim().length > 0 &&
+      dataInput.birth !== this.userData.birth
+    ) {
+      console.log(dataInput.birth, this.userData.birth);
+      console.log("Birth date changed!");
+      this.changesSaved = false;
+    }
+  }
+
   onSubmitForm(): void {
     if (this.allowSubmitForm()) {
-      const formDataValues = this.formData.value;
+      const dataFormValues = this.dataForm.value;
       const dataUpdate = this.getDataUpdate();
       console.log("dataUpdate:", dataUpdate);
-      this.usersService.updateUser(dataUpdate).subscribe(
-        (response) => {
+      this.usersService.updateUser(dataUpdate).subscribe({
+        next: (response) => {
           console.log(response);
           this.snackBar.open("User profile data updated successfully!", "OK", {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
           });
-          if (formDataValues.username.trim().length >= 5) {
-            localStorage.setItem("username", formDataValues.username);
+          if (dataFormValues.username.trim().length >= 5) {
+            localStorage.setItem("username", dataFormValues.username);
           }
           this.changesSaved = true;
           this.router.navigate(["/movies"]);
         },
-        (error) => {
+        error: (error) => {
           console.error("Update user profile error:", error.message);
           this.errorMessage = error.message;
           this.snackBar.open("Something went wrong! Please try again!", "OK", {
@@ -165,8 +200,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["red-snackbar", "login-snackbar"],
           });
           this.changesSaved = false;
-        }
-      );
+        },
+      });
     }
   }
 
@@ -184,8 +219,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
       dialogRef.componentInstance.dialogType = "YES/NO";
       dialogRef.afterClosed().subscribe((answer) => {
         if (answer) {
-          this.usersService.deleteUser().subscribe(
-            (response) => {
+          this.usersService.deleteUser().subscribe({
+            next: (response) => {
               console.log(response);
               this.snackBar.open("User profile deleted successfully!", "OK", {
                 duration: 2000,
@@ -193,7 +228,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
               });
               this.router.navigate(["/welcome"]);
             },
-            (error) => {
+            error: (error) => {
               console.error(error.message);
               this.snackBar.open(
                 "Something went wrong! Please try again!",
@@ -203,8 +238,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
                   panelClass: ["red-snackbar", "login-snackbar"],
                 }
               );
-            }
-          );
+            },
+          });
         }
       });
     }

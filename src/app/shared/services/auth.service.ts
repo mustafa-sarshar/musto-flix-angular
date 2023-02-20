@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from "@angular/common/http";
 
 import { UserLoginCredentials } from "../models/user.model";
 
@@ -18,10 +22,9 @@ export class AuthService {
         `${BACKEND_SERVER_URL}/login`,
         {},
         {
-          params: {
-            username: userCredentials.username,
-            pass: userCredentials.pass,
-          },
+          params: new HttpParams()
+            .set("username", userCredentials.username)
+            .set("pass", userCredentials.pass),
         }
       )
       .pipe(catchError(this.handleError));

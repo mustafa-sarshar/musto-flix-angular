@@ -30,8 +30,8 @@ export class LoginComponent {
     this.isDataFetchingNow = true;
     this.serviceSubscription = this.authService
       .userLogin(this.formData.value)
-      .subscribe(
-        (result: Data) => {
+      .subscribe({
+        next: (result: Data) => {
           localStorage.clear();
           localStorage.setItem("username", result["user"].username);
           localStorage.setItem("favorites", result["user"].favList.toString());
@@ -44,15 +44,15 @@ export class LoginComponent {
           this.serviceSubscription.unsubscribe();
           this.router.navigate(["movies"]);
         },
-        (error) => {
+        error: (error) => {
           this.snackBar.open("Something went wrong! Please try again.", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
           console.error(error.message);
           this.isDataFetchingNow = false;
-        }
-      );
+        },
+      });
   }
 
   onClickCancel(): void {

@@ -76,8 +76,8 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
     this.updatingFavoritesMode = true;
     if (this.checkMovieIsFavorite(movieId)) {
       console.log("Lets remove it", movieId);
-      this.usersService.removeFavoriteMovieFromServer(movieId).subscribe(
-        (response) => {
+      this.usersService.removeFavoriteMovieFromServer(movieId).subscribe({
+        next: (response) => {
           console.log("Success", response);
           this.removeFavoriteMovieFromLocalStorage(movieId);
           this.updatingFavoritesMode = false;
@@ -86,19 +86,19 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["green-snackbar", "login-snackbar"],
           });
         },
-        (error) => {
+        error: (error) => {
           console.error("Add to favorites error:", error);
           this.updatingFavoritesMode = false;
           this.snackBar.open("Something went wrong!", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
-        }
-      );
+        },
+      });
     } else {
       console.log("Lets add it", movieId);
-      this.usersService.addFavoriteMovieToServer(movieId).subscribe(
-        (response) => {
+      this.usersService.addFavoriteMovieToServer(movieId).subscribe({
+        next: (response) => {
           console.log("Success", response);
           this.addFavoriteMovieToLocalStorage(movieId);
           this.updatingFavoritesMode = false;
@@ -107,15 +107,15 @@ export class MovieCardComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["green-snackbar", "login-snackbar"],
           });
         },
-        (error) => {
+        error: (error) => {
           console.error("Add to favorites error:", error);
           this.updatingFavoritesMode = false;
           this.snackBar.open("Something went wrong!", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
-        }
-      );
+        },
+      });
     }
   }
 

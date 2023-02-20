@@ -10,13 +10,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppMaterialModule } from "./app-material.module";
 import { AppComponent } from "./app.component";
 
-import { UsersService } from "./shared/services/users.service";
-import { MoviesService } from "./shared/services/movies.service";
-import { AuthService } from "./shared/services/auth.service";
-
-import { AuthGuard } from "./shared/guards/auth.guard";
-import { LeavePageGuard } from "./shared/guards/leave-page.guard";
-
 import { FilterArrayPipe } from "./shared/pipes/filter-array.pipe";
 
 import { LoginComponent } from "./views/users/login/login.component";
@@ -57,13 +50,7 @@ import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirm
     AppMaterialModule,
     LayoutModule,
   ],
-  providers: [
-    UsersService,
-    MoviesService,
-    AuthService,
-    AuthGuard,
-    LeavePageGuard,
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

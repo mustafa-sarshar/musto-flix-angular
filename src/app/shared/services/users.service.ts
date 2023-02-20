@@ -33,7 +33,7 @@ export class UsersService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -53,7 +53,7 @@ export class UsersService {
     return this.http
       .put(`${BACKEND_SERVER_URL}/users/${username}`, userDataUpdate, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -65,7 +65,7 @@ export class UsersService {
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -77,7 +77,7 @@ export class UsersService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}/favorites`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -92,7 +92,7 @@ export class UsersService {
         {},
         {
           headers: new HttpHeaders({
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
           }),
         }
       )
@@ -105,7 +105,7 @@ export class UsersService {
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));

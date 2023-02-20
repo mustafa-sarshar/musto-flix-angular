@@ -30,8 +30,8 @@ export class RegistrationComponent implements OnInit {
     this.isDataFetchingNow = true;
     this.serviceSubscription = this.usersService
       .userRegistration(this.formData.value)
-      .subscribe(
-        (result) => {
+      .subscribe({
+        next: (result) => {
           console.log(result);
           this.snackBar.open("User registration was successful!", "OK", {
             duration: 2000,
@@ -40,15 +40,15 @@ export class RegistrationComponent implements OnInit {
           this.serviceSubscription.unsubscribe();
           this.dialogRef.close();
         },
-        (error) => {
+        error: (error) => {
           console.error("Registration error:", error.message);
           this.snackBar.open("Something went wrong! Please try again.", "OK", {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
           this.isDataFetchingNow = false;
-        }
-      );
+        },
+      });
   }
 
   onClickCancel(): void {

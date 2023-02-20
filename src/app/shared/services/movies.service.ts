@@ -19,7 +19,7 @@ export class MoviesService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/populated`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -30,7 +30,7 @@ export class MoviesService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/${title}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -41,7 +41,7 @@ export class MoviesService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/directors/${directorName}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
@@ -52,7 +52,7 @@ export class MoviesService {
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/genre/${genreName}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
