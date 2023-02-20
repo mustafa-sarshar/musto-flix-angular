@@ -1,4 +1,5 @@
 $break-point: 550px;
+$width-card--max: 300px;
 
 .user {
   &-card {
@@ -23,7 +24,7 @@ $break-point: 550px;
       flex-direction: column;
       align-items: center;
       margin: 1.5rem;
-      max-width: 250px;
+      max-width: $width-card--max;
       width: 100%;
 
       box-shadow: none;
@@ -43,10 +44,11 @@ $break-point: 550px;
 
       &__userInfo {
         margin-bottom: 0.5;
+        overflow: hidden;
 
-        span {
-          display: inline-block;
-          width: 100%;
+        p {
+          overflow-wrap: break-word;
+          width: calc($width-card--max - 30px);
 
           &:nth-child(even) {
             margin-bottom: 1rem;

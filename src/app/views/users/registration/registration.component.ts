@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
 
@@ -6,29 +6,40 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
+import { AppMonitoringService } from "src/app/shared/services/app-monitoring.service";
 
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
   styleUrls: ["./registration.component.scss"],
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
   @ViewChild("formEl") formData: NgForm;
   hidePasswordValue = true;
-  isDataFetchingNow = false;
-  serviceSubscription = new Subscription();
+  isDataFetching = false;
+  authServiceSubscription = new Subscription();
+  appMonitoringServiceSubscription = new Subscription();
 
   constructor(
     private usersService: UsersService,
+    private appMonitoringService: AppMonitoringService,
     public dialogRef: MatDialogRef<RegistrationComponent>,
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
+    this.appMonitoringServiceSubscription =
+      this.appMonitoringService.isDataFetchingSbj.subscribe({
+        next: (isDataFetching: boolean) => {
+          this.isDataFetching = isDataFetching;
+        },
+      });
+  }
 
   onSubmitForm(): void {
-    this.isDataFetchingNow = true;
-    this.serviceSubscription = this.usersService
+    this.appMonitoringService.setIsDataFetchingStatus(true);
+    this.authServiceSubscription = this.usersService
       .userRegistration(this.formData.value)
       .subscribe({
         next: (result) => {
@@ -37,7 +48,7 @@ export class RegistrationComponent implements OnInit {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
           });
-          this.serviceSubscription.unsubscribe();
+          this.appMonitoringService.setIsDataFetchingStatus(false);
           this.dialogRef.close();
         },
         error: (error) => {
@@ -46,14 +57,23 @@ export class RegistrationComponent implements OnInit {
             duration: 2000,
             panelClass: ["red-snackbar", "login-snackbar"],
           });
-          this.isDataFetchingNow = false;
+          this.appMonitoringService.setIsDataFetchingStatus(false);
         },
       });
   }
 
+  ngOnDestroy(): void {
+    this.onClosing();
+  }
+
   onClickCancel(): void {
-    this.isDataFetchingNow = false;
-    this.serviceSubscription.unsubscribe();
+    this.onClosing();
     this.dialogRef.close();
+  }
+
+  onClosing(): void {
+    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.authServiceSubscription.unsubscribe();
+    this.appMonitoringServiceSubscription.unsubscribe();
   }
 }

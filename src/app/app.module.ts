@@ -20,9 +20,10 @@ import { WelcomePageComponent } from "./views/welcome-page/welcome-page.componen
 import { StarsComponent } from "./views/movies/stars/stars.component";
 import { DirectorsComponent } from "./views/movies/directors/directors.component";
 import { GenresComponent } from "./views/movies/genres/genres.component";
-import { MainNavComponent } from "./views/ui/main-nav/main-nav.component";
-import { PageFooterComponent } from "./views/ui/page-footer/page-footer.component";
-import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirmation-dialog.component";
+import { MainNavComponent } from "./shared/ui-gadgets/main-nav/main-nav.component";
+import { PageFooterComponent } from "./shared/ui-gadgets/page-footer/page-footer.component";
+import { ConfirmationDialogComponent } from "./shared/ui-gadgets/confirmation-dialog/confirmation-dialog.component";
+import { LoadingSpinnerComponent } from "./shared/ui-gadgets/loading-spinner/loading-spinner.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ConfirmationDialogComponent } from "./views/confirmation-dialog/confirm
     ConfirmationDialogComponent,
     UserProfileComponent,
     FilterArrayPipe,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

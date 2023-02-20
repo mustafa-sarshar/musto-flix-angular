@@ -1,9 +1,8 @@
 .footer {
   &-toolbar {
     position: sticky;
-    position: -webkit-sticky; /* For macOS/iOS Safari */
-    bottom: 0; /* Sets the sticky toolbar to be on top */
-    z-index: 1000;
+    bottom: 0;
+    z-index: 900;
     width: 100%;
   }
 

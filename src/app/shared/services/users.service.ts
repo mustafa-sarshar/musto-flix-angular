@@ -6,17 +6,23 @@ import {
 } from "@angular/common/http";
 import { Observable, catchError, map, throwError } from "rxjs";
 
+import { LocalStorageService } from "./local-storage.service";
+
 import {
   UserRegistrationCredentials,
   UserUpdateCredentials,
 } from "../models/user.model";
+
 import { BACKEND_SERVER_URL } from "src/configs";
 
 @Injectable({
   providedIn: "root",
 })
 export class UsersService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   // Making the api call for the user registration endpoint
   public userRegistration(
@@ -28,8 +34,9 @@ export class UsersService {
   }
 
   public getUser(): Observable<any> {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
+
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
@@ -40,16 +47,16 @@ export class UsersService {
   }
 
   public updateUser(userCredentials: UserUpdateCredentials): Observable<any> {
-    console.log(userCredentials);
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
     const userDataUpdate = {};
+
     if (userCredentials.username)
       userDataUpdate["username"] = userCredentials.username;
     if (userCredentials.pass) userDataUpdate["pass"] = userCredentials.pass;
     if (userCredentials.email) userDataUpdate["email"] = userCredentials.email;
     if (userCredentials.birth) userDataUpdate["birth"] = userCredentials.birth;
-    console.log(userCredentials, userDataUpdate);
+
     return this.http
       .put(`${BACKEND_SERVER_URL}/users/${username}`, userDataUpdate, {
         headers: new HttpHeaders({
@@ -60,8 +67,9 @@ export class UsersService {
   }
 
   public deleteUser(): Observable<any> {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
+
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}`, {
         headers: new HttpHeaders({
@@ -72,8 +80,9 @@ export class UsersService {
   }
 
   public getFavoriteMovies(): Observable<any> {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
+
     return this.http
       .get(`${BACKEND_SERVER_URL}/users/${username}/favorites`, {
         headers: new HttpHeaders({
@@ -84,8 +93,9 @@ export class UsersService {
   }
 
   public addFavoriteMovieToServer(movieId: string): Observable<any> {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
+
     return this.http
       .patch(
         `${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`,
@@ -100,8 +110,9 @@ export class UsersService {
   }
 
   public removeFavoriteMovieFromServer(movieId: string): Observable<any> {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const token = this.localStorageService.getTokenFromLocalStorage();
+    const username = this.localStorageService.getUsernameFromLocalStorage();
+
     return this.http
       .delete(`${BACKEND_SERVER_URL}/users/${username}/favorites/${movieId}`, {
         headers: new HttpHeaders({
@@ -123,13 +134,19 @@ export class UsersService {
         console.error(
           `Error Status: ${httpErrorRes.status}\nError message: ${httpErrorRes.error.message}`
         );
-        return throwError({ message: httpErrorRes.error.message });
+
+        return throwError(() => {
+          message: httpErrorRes.error.message;
+        });
       }
     } else {
       console.error(
         `Error Status: ${httpErrorRes.status}\nError body: ${httpErrorRes.error}`
       );
-      return throwError("Something went wrong! Please try again later.");
+
+      return throwError(
+        () => new Error("Something went wrong! Please try again later.")
+      );
     }
   }
 }

@@ -4,6 +4,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { LoginComponent } from "../users/login/login.component";
 import { RegistrationComponent } from "../users/registration/registration.component";
 
+import { LOGIN_SIGNUP_FORM_STYLE } from "src/configs";
+
 @Component({
   selector: "app-welcome-page",
   templateUrl: "./welcome-page.component.html",
@@ -17,20 +19,10 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onOpenUserLoginDialog(): void {
-    this.dialog.open(LoginComponent, {
-      width: "80%",
-      minWidth: "250px",
-      maxWidth: "480px",
-      disableClose: true,
-    });
+    this.dialog.open(LoginComponent, LOGIN_SIGNUP_FORM_STYLE);
   }
 
   onOpenUserRegistrationDialog(): void {
-    this.dialog.open(RegistrationComponent, {
-      width: "80%",
-      minWidth: "250px",
-      maxWidth: "480px",
-      disableClose: true,
-    });
+    this.dialog.open(RegistrationComponent, LOGIN_SIGNUP_FORM_STYLE);
   }
 }

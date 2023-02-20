@@ -1,20 +1,22 @@
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from "@angular/common/http";
+import { Observable, catchError } from "rxjs";
+import { HttpClient, HttpParams } from "@angular/common/http";
+
+import { LocalStorageService } from "./local-storage.service";
+import { ErrorService } from "./error.service";
 
 import { UserLoginCredentials } from "../models/user.model";
-
 import { BACKEND_SERVER_URL } from "src/configs";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private errorService: ErrorService
+  ) {}
 
   public userLogin(userCredentials: UserLoginCredentials): Observable<any> {
     return this.http
@@ -27,12 +29,13 @@ export class AuthService {
             .set("pass", userCredentials.pass),
         }
       )
-      .pipe(catchError(this.handleError));
+      .pipe(catchError((error) => this.errorService.handleError(error)));
   }
 
   public isAuthenticated() {
     const promise = new Promise((resolve, reject) => {
-      const usernameSaved = localStorage.getItem("username");
+      const usernameSaved =
+        this.localStorageService.getUsernameFromLocalStorage();
       resolve(
         (usernameSaved !== undefined || usernameSaved !== "") &&
           !this.isTokenExpired()
@@ -42,29 +45,12 @@ export class AuthService {
   }
 
   private isTokenExpired(): boolean {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     if (!token) {
       return true;
     } else {
       const expiry = JSON.parse(atob(token.split(".")[1])).exp;
       return Math.floor(new Date().getTime() / 1000) >= expiry;
-    }
-  }
-
-  // Handle Errors
-  private handleError(httpErrorRes: HttpErrorResponse): any {
-    if (httpErrorRes.error) {
-      if (httpErrorRes.error.message) {
-        console.error(
-          `Error Status: ${httpErrorRes.status}\nError message: ${httpErrorRes.error.message}`
-        );
-        return throwError({ message: httpErrorRes.error.message });
-      }
-    } else {
-      console.error(
-        `Error Status: ${httpErrorRes.status}\nError body: ${httpErrorRes.error}`
-      );
-      return throwError("Something went wrong! Please try again later.");
     }
   }
 }

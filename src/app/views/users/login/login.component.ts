@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Data, Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -7,28 +7,45 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { AuthService } from "src/app/shared/services/auth.service";
+import { AppMonitoringService } from "src/app/shared/services/app-monitoring.service";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild("formEl") formData: NgForm;
   hidePasswordValue = true;
-  isDataFetchingNow = false;
-  serviceSubscription = new Subscription();
+  isDataFetching = false;
+  authServiceSubscription = new Subscription();
+  appMonitoringServiceSubscription = new Subscription();
 
   constructor(
     private authService: AuthService,
+    private appMonitoringService: AppMonitoringService,
     public dialogRef: MatDialogRef<LoginComponent>,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
+    this.appMonitoringServiceSubscription =
+      this.appMonitoringService.isDataFetchingSbj.subscribe({
+        next: (isDataFetching: boolean) => {
+          this.isDataFetching = isDataFetching;
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onClosing();
+  }
+
   onSubmitForm(): void {
-    this.isDataFetchingNow = true;
-    this.serviceSubscription = this.authService
+    this.appMonitoringService.setIsDataFetchingStatus(true);
+    this.authServiceSubscription = this.authService
       .userLogin(this.formData.value)
       .subscribe({
         next: (result: Data) => {
@@ -41,7 +58,6 @@ export class LoginComponent {
             duration: 2000,
             panelClass: ["green-snackbar", "login-snackbar"],
           });
-          this.serviceSubscription.unsubscribe();
           this.router.navigate(["movies"]);
         },
         error: (error) => {
@@ -50,14 +66,19 @@ export class LoginComponent {
             panelClass: ["red-snackbar", "login-snackbar"],
           });
           console.error(error.message);
-          this.isDataFetchingNow = false;
+          this.appMonitoringService.setIsDataFetchingStatus(false);
         },
       });
   }
 
   onClickCancel(): void {
-    this.isDataFetchingNow = false;
-    this.serviceSubscription.unsubscribe();
+    this.onClosing();
     this.dialogRef.close();
+  }
+
+  onClosing(): void {
+    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.authServiceSubscription.unsubscribe();
+    this.appMonitoringServiceSubscription.unsubscribe();
   }
 }

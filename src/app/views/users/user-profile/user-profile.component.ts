@@ -1,40 +1,56 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router, UrlTree } from "@angular/router";
 import { NgForm } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { UsersService } from "src/app/shared/services/users.service";
+import { AppMonitoringService } from "src/app/shared/services/app-monitoring.service";
 import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
 
 import { UserUpdateCredentials } from "src/app/shared/models/user.model";
 
-import { ConfirmationDialogComponent } from "../../confirmation-dialog/confirmation-dialog.component";
+import { ConfirmationDialogComponent } from "../../../shared/ui-gadgets/confirmation-dialog/confirmation-dialog.component";
 import { DialogBox } from "src/app/shared/models/dialog.model";
+
+import { CONFIRMATION_POPUP_STYLE } from "src/configs";
 
 @Component({
   selector: "app-user-profile",
   templateUrl: "./user-profile.component.html",
   styleUrls: ["./user-profile.component.scss"],
 })
-export class UserProfileComponent implements OnInit, CanDeactivateComponent {
+export class UserProfileComponent
+  implements OnInit, OnDestroy, CanDeactivateComponent
+{
   userData = new UserUpdateCredentials(null, null, null, null);
   @ViewChild("formEl") dataForm: NgForm;
   hidePasswordValue = true;
   errorMessage = "";
   changesSaved = true;
-  isDataFetchingNow = false;
+  isDataFetching = true;
+  userServiceSubscription = new Subscription();
+  appMonitoringServiceSubscription = new Subscription();
 
   constructor(
     private usersService: UsersService,
+    private appMonitoringService: AppMonitoringService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.appMonitoringService.setIsDataFetchingStatus(true);
+    this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
+    this.appMonitoringServiceSubscription =
+      this.appMonitoringService.isDataFetchingSbj.subscribe({
+        next: (isDataFetching: boolean) => {
+          this.isDataFetching = isDataFetching;
+        },
+      });
     this.usersService.getUser().subscribe({
       next: (response) => {
         console.log("UserProfile:", response);
@@ -47,6 +63,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
           duration: 2000,
           panelClass: ["green-snackbar", "login-snackbar"],
         });
+        this.appMonitoringService.setIsDataFetchingStatus(false);
       },
       error: (error) => {
         console.error("Profile error:", error);
@@ -58,8 +75,13 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["red-snackbar", "login-snackbar"],
           }
         );
+        this.appMonitoringService.setIsDataFetchingStatus(false);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onClosing();
   }
 
   canDeactivate():
@@ -68,11 +90,10 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     if (!this.changesSaved) {
-      // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      //   width: "250px",
-      //   minWidth: "250px",
-      //   maxWidth: "480px",
-      // });
+      // const dialogRef = this.dialog.open(
+      //   ConfirmationDialogComponent,
+      //   CONFIRMATION_POPUP_STYLE
+      // );
       // dialogRef.componentInstance.dialogBox = new DialogBox(
       //   "Be careful!",
       //   "If you leave the page now, you will discard the changes!"
@@ -143,9 +164,11 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
     const dataInput = this.dataForm.value;
     this.changesSaved = true;
 
+    console.log("DataInput", dataInput);
+
     if (
-      dataInput.username.trim().length > 0 &&
-      dataInput.username !== this.userData.username
+      dataInput?.username.trim().length > 0 &&
+      dataInput?.username !== this.userData.username
     ) {
       console.log("Username changed!");
       this.changesSaved = false;
@@ -176,6 +199,8 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
 
   onSubmitForm(): void {
     if (this.allowSubmitForm()) {
+      this.appMonitoringService.setIsDataFetchingStatus(true);
+
       const dataFormValues = this.dataForm.value;
       const dataUpdate = this.getDataUpdate();
       console.log("dataUpdate:", dataUpdate);
@@ -190,6 +215,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
             localStorage.setItem("username", dataFormValues.username);
           }
           this.changesSaved = true;
+          this.onClosing();
           this.router.navigate(["/movies"]);
         },
         error: (error) => {
@@ -200,6 +226,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
             panelClass: ["red-snackbar", "login-snackbar"],
           });
           this.changesSaved = false;
+          this.appMonitoringService.setIsDataFetchingStatus(false);
         },
       });
     }
@@ -207,11 +234,10 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
 
   onClickDeleteAccount(): void {
     if (this.userData.username) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: "250px",
-        minWidth: "250px",
-        maxWidth: "480px",
-      });
+      const dialogRef = this.dialog.open(
+        ConfirmationDialogComponent,
+        CONFIRMATION_POPUP_STYLE
+      );
       dialogRef.componentInstance.dialogBox = new DialogBox(
         "Be careful!",
         "Do you really want to delete your account?"
@@ -226,6 +252,7 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
                 duration: 2000,
                 panelClass: ["green-snackbar", "login-snackbar"],
               });
+              this.onClosing();
               this.router.navigate(["/welcome"]);
             },
             error: (error) => {
@@ -243,5 +270,22 @@ export class UserProfileComponent implements OnInit, CanDeactivateComponent {
         }
       });
     }
+  }
+
+  onClickClear(): void {
+    this.changesSaved = true;
+    this.dataForm.resetForm({
+      username: "",
+      pass: "",
+      email: "",
+      birth: "",
+    });
+    console.log(this.dataForm);
+  }
+
+  onClosing(): void {
+    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.userServiceSubscription.unsubscribe();
+    this.appMonitoringServiceSubscription.unsubscribe();
   }
 }

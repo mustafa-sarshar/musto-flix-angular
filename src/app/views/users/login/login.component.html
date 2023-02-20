@@ -9,14 +9,13 @@
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput type="text" name="username" placeholder="username" id="username" minlength="5"
-          pattern="[a-zA-Z0-9-]+" [disabled]="isDataFetchingNow" ngModel required>
+          pattern="[a-zA-Z0-9-]+" [disabled]="isDataFetching" ngModel required>
         <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Enter your password</mat-label>
         <input matInput name="pass" placeholder="" id="pass" autoComplete="off"
-          [type]="hidePasswordValue ? 'password' : 'text'" minlength="5" [disabled]="isDataFetchingNow" ngModel
-          required>
+          [type]="hidePasswordValue ? 'password' : 'text'" minlength="5" [disabled]="isDataFetching" ngModel required>
         <button mat-icon-button matSuffix (click)="hidePasswordValue = !hidePasswordValue"
           [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordValue">
           <mat-icon>{{hidePasswordValue ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -25,9 +24,9 @@
     </mat-card-content>
     <mat-card-footer>
       <mat-card-actions align="end">
-        <button mat-stroked-button type="submit" [disabled]="!formEl.valid || isDataFetchingNow">Login</button>
+        <button mat-stroked-button type="submit" [disabled]="!formEl.valid || isDataFetching">Login</button>
         <button mat-stroked-button type="button" (click)="onClickCancel()" color="warn"
-          [disabled]="isDataFetchingNow">Cancel</button>
+          [disabled]="isDataFetching">Cancel</button>
       </mat-card-actions>
       <div class="help-box"
         *ngIf="!formEl.valid && formEl.touched && formEl.dirty && ((!formEl.controls['username'].valid && formEl.controls['username'].touched && formEl.controls['username'].dirty) || (!formEl.controls['pass'].valid && formEl.controls['pass'].touched && formEl.controls['pass'].dirty))">
