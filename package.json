@@ -1,12 +1,13 @@
 {
   "name": "musto-flix-angular",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "ng deploy --base-href=/musto-flix-angular/",
     "typedoc": "typedoc --tsconfig tsconfig.json"
   },
   "private": true,
