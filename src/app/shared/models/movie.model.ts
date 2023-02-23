@@ -1,4 +1,15 @@
+/**
+ * @class
+ */
 export class Person {
+  /**
+   * @constructor
+   * @param _id
+   * @param name
+   * @param bio
+   * @param birth
+   * @param death
+   */
   constructor(
     public _id: string,
     public name: string,
@@ -8,7 +19,19 @@ export class Person {
   ) {}
 }
 
+/**
+ * @class
+ * @description - It holds the data of each director
+ */
 export class Director extends Person {
+  /**
+   * @constructor
+   * @param _id
+   * @param name
+   * @param bio
+   * @param birth
+   * @param death
+   */
   constructor(
     _id: string,
     name: string,
@@ -20,7 +43,19 @@ export class Director extends Person {
   }
 }
 
+/**
+ * @class
+ * @description - It hold the data of each actor
+ */
 export class Actor extends Person {
+  /**
+   * @constructor
+   * @param _id
+   * @param name
+   * @param bio
+   * @param birth
+   * @param death
+   */
   constructor(
     _id: string,
     name: string,
@@ -32,11 +67,36 @@ export class Actor extends Person {
   }
 }
 
+/**
+ * @class
+ * @description - It holds the data of each genre
+ */
 export class Genre {
+  /**
+   * @constructor
+   * @param _id
+   * @param name
+   * @param des
+   */
   constructor(public _id: string, public name: string, public des: string) {}
 }
 
+/**
+ * @class
+ * @description - It holds the data of each movie
+ */
 export class Movie {
+  /**
+   * @constructor
+   * @param _id
+   * @param title
+   * @param des
+   * @param directors
+   * @param stars
+   * @param genres
+   * @param image_url
+   * @param featured
+   */
   constructor(
     public _id: string,
     public title: string,

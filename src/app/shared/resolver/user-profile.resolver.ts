@@ -6,16 +6,29 @@ import {
 } from "@angular/router";
 import { Observable } from "rxjs";
 
+import { LocalStorageService } from "../services/local-storage.service";
+
+/**
+ * @class
+ * @description - It resolves the route by checking the local storage.
+ */
 @Injectable({
   providedIn: "root",
 })
 export class UserProfileResolver implements Resolve<string> {
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 
+  /**
+   * @method
+   * @description - It resolves the route by returning the username from the localStorage.
+   * @param route
+   * @param state
+   * @returns - The username item from the localStorage
+   */
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<string> | string {
-    return localStorage.getItem("username");
+    return this.localStorageService.getUsernameFromLocalStorage();
   }
 }

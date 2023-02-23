@@ -4,6 +4,10 @@ import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
+/**
+ * @class
+ * @description - It acts as the main app's navigation including the navigation side and navigation bar.
+ */
 @Component({
   selector: "app-main-nav",
   templateUrl: "./main-nav.component.html",
@@ -18,6 +22,11 @@ export class MainNavComponent implements OnInit {
     );
   username: string = "";
 
+  /**
+   * @constructor
+   * @param breakpointObserver
+   * @param router
+   */
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router

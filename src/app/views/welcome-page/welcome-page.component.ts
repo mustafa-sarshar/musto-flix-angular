@@ -6,12 +6,20 @@ import { RegistrationComponent } from "../users/registration/registration.compon
 
 import { LOGIN_SIGNUP_FORM_STYLE } from "src/configs";
 
+/**
+ * @class
+ * @description - This is the landing page of the app, which provides the users which two choices, 1) to login, and 2) to register.
+ */
 @Component({
   selector: "app-welcome-page",
   templateUrl: "./welcome-page.component.html",
   styleUrls: ["./welcome-page.component.scss"],
 })
 export class WelcomePageComponent implements OnInit {
+  /**
+   * @constructor
+   * @param dialog - It will be used to open a dialog holding the corresponding UI component.
+   */
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {

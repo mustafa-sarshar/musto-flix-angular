@@ -2,6 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { AppMonitoringService } from "../../services/app-monitoring.service";
 import { Subscription } from "rxjs";
 
+/**
+ * @class
+ * @description - It acts as a loading spinner while the data is still getting fetched or loaded or uploaded.
+ */
 @Component({
   selector: "app-loading-spinner",
   templateUrl: "./loading-spinner.component.html",
@@ -12,6 +16,10 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
   showSpinner = false;
   isDataFetchingSubs = new Subscription();
 
+  /**
+   * @constructor
+   * @param appMonitoringService
+   */
   constructor(private appMonitoringService: AppMonitoringService) {}
 
   ngOnInit(): void {

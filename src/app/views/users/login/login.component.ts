@@ -9,6 +9,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { AppMonitoringService } from "src/app/shared/services/app-monitoring.service";
 
+/**
+ * @class
+ * @description - It acts as a login form and will be shows as a dialog.
+ */
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -21,6 +25,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   authServiceSubscription = new Subscription();
   appMonitoringServiceSubscription = new Subscription();
 
+  /**
+   * @constructor
+   * @param authService
+   * @param appMonitoringService
+   * @param dialogRef
+   * @param snackBar
+   * @param router
+   */
   constructor(
     private authService: AuthService,
     private appMonitoringService: AppMonitoringService,

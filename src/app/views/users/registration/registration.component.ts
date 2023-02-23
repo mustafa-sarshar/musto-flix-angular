@@ -8,6 +8,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { UsersService } from "src/app/shared/services/users.service";
 import { AppMonitoringService } from "src/app/shared/services/app-monitoring.service";
 
+/**
+ * @class
+ * @description - It acts as a registration form and will be shows as a dialog.
+ */
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
@@ -20,6 +24,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   authServiceSubscription = new Subscription();
   appMonitoringServiceSubscription = new Subscription();
 
+  /**
+   * @constructor
+   * @param usersService
+   * @param appMonitoringService
+   * @param dialogRef
+   * @param snackBar
+   */
   constructor(
     private usersService: UsersService,
     private appMonitoringService: AppMonitoringService,

@@ -17,6 +17,10 @@ import { DialogBox } from "src/app/shared/models/dialog.model";
 
 import { CONFIRMATION_POPUP_STYLE } from "src/configs";
 
+/**
+ * @class
+ * @description - It holds all the user's profile information, and allows the user's to delete the account or update the user's profile data.
+ */
 @Component({
   selector: "app-user-profile",
   templateUrl: "./user-profile.component.html",
@@ -34,6 +38,14 @@ export class UserProfileComponent
   userServiceSubscription = new Subscription();
   appMonitoringServiceSubscription = new Subscription();
 
+  /**
+   * @constructor
+   * @param usersService
+   * @param appMonitoringService
+   * @param dialog
+   * @param snackBar
+   * @param router
+   */
   constructor(
     private usersService: UsersService,
     private appMonitoringService: AppMonitoringService,
@@ -84,6 +96,11 @@ export class UserProfileComponent
     this.onClosing();
   }
 
+  /**
+   * @method
+   * @description - It will first check the change status of the input data and then ask the user for confirmation before leaving the page, if the input data is already changed but not saved.
+   * @returns
+   */
   canDeactivate():
     | boolean
     | UrlTree
@@ -109,6 +126,11 @@ export class UserProfileComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It will return a user object by checking the validity of each input data.
+   * @returns - the updated user's data
+   */
   getDataUpdate(): UserUpdateCredentials {
     const dataUpdate = new UserUpdateCredentials(null, null, null, null);
     if (
@@ -138,6 +160,11 @@ export class UserProfileComponent
     return dataUpdate;
   }
 
+  /**
+   * @method
+   * @description - It checks the validity of all input data.
+   * @returns - true/false based on the validation of the input data
+   */
   allowSubmitForm(): boolean {
     if (this.dataForm) {
       const dataFormValues = this.dataForm.value;
@@ -160,6 +187,10 @@ export class UserProfileComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It checks weather the user has entered any data in any of input fields, and update the changesSaved variable based on that.
+   */
   onChangeInput(): void {
     const dataInput = this.dataForm.value;
     this.changesSaved = true;

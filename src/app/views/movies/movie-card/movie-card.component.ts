@@ -25,6 +25,10 @@ import {
 
 import { MOVIE_DETAIL_COMPONENT_STYLE } from "src/configs";
 
+/**
+ * @class
+ * @description - It holds/shows all available/fetched movies. It also allows the users to like any movie and add them to favorites.
+ */
 @Component({
   selector: "app-movie-card",
   templateUrl: "./movie-card.component.html",
@@ -43,6 +47,15 @@ export class MovieCardComponent
   appMonitoringServiceSubscription = new Subscription();
   localStorageServiceSubscription = new Subscription();
 
+  /**
+   * @constructor
+   * @param moviesService
+   * @param usersService
+   * @param appMonitoringService
+   * @param localStorageService
+   * @param dialog
+   * @param snackBar
+   */
   constructor(
     private moviesService: MoviesService,
     private usersService: UsersService,
