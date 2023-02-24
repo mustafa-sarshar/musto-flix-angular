@@ -12,6 +12,9 @@ import { Actor } from "src/app/shared/models/movie.model";
   styleUrls: ["./stars.component.scss"],
 })
 export class StarsComponent {
+  /**
+   * @property
+   */
   stars: Actor[] = [];
 
   constructor() {}

@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+
 import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+
+import { LocalStorageService } from "../../services/local-storage.service";
 
 /**
  * @class
@@ -14,13 +17,14 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
   styleUrls: ["./main-nav.component.scss"],
 })
 export class MainNavComponent implements OnInit {
+  // This property controls the way that the sidebar nav should look.
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
       map((result) => result.matches),
       shareReplay()
     );
-  username: string = "";
+  username: string = ""; // It holds the username value, if the user is already authenticated and logged in.
 
   /**
    * @constructor
@@ -29,26 +33,36 @@ export class MainNavComponent implements OnInit {
    */
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
-    const usernameLocal = localStorage.getItem("username");
-    if (usernameLocal) {
-      this.username = usernameLocal;
-    }
+    this.username = this.localStorageService.getUsernameFromLocalStorage();
   }
 
+  /**
+   * @method
+   * @description - It performs when the user clicks on the App's brand
+   */
   onClickAppBrand(): void {
     this.router.navigate(["/movies"]);
   }
 
+  /**
+   * @method
+   * @description - It performs when the user clicks on the user profile nav item.
+   */
   onClickUserProfile(): void {
     this.router.navigate(["/user-profile"]);
   }
 
+  /**
+   * @method
+   * @description - It performs when the user clicks on the logout nav item.
+   */
   onClickLogout(): void {
-    localStorage.clear();
+    this.localStorageService.clearLocalStorage();
     this.router.navigate(["/welcome"]);
   }
 }

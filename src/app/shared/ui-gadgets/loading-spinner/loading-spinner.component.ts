@@ -12,9 +12,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["./loading-spinner.component.scss"],
 })
 export class LoadingSpinnerComponent implements OnInit, OnDestroy {
-  @Input("message") message = "Please wait...";
-  showSpinner = false;
-  isDataFetchingSubs = new Subscription();
+  @Input("message") message: string = "Please wait..."; // The message that will be shown below the spinner whiling loading/fetching data. This property can be set from outside the component.
+  showSpinner: boolean = false; // It is used to control the visibility of the spinner.
+  isDataFetchingSubs: Subscription = new Subscription(); // It is used to subscribe to the isDataFetchingSbj of the AppMonitoringService.
 
   /**
    * @constructor
@@ -22,6 +22,10 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
    */
   constructor(private appMonitoringService: AppMonitoringService) {}
 
+  /**
+   * @method
+   * @description - It initializes the component by subscribing and assigning the global dataFetching variable to the local showSpinner property.
+   */
   ngOnInit(): void {
     this.showSpinner = this.appMonitoringService.getIsDataFetchingStatus();
     this.isDataFetchingSubs =
@@ -32,6 +36,10 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * @method
+   * @description - It performs necessary action when the component gets destroyed.
+   */
   ngOnDestroy(): void {
     this.isDataFetchingSubs.unsubscribe();
   }

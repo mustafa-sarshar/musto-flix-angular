@@ -4,6 +4,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { LoginComponent } from "../users/login/login.component";
 import { RegistrationComponent } from "../users/registration/registration.component";
 
+import { LocalStorageService } from "src/app/shared/services/local-storage.service";
+
 import { LOGIN_SIGNUP_FORM_STYLE } from "src/configs";
 
 /**
@@ -20,16 +22,31 @@ export class WelcomePageComponent implements OnInit {
    * @constructor
    * @param dialog - It will be used to open a dialog holding the corresponding UI component.
    */
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
+  ) {}
 
+  /**
+   * @method
+   * @description - It initializes and resets the app when the app first starts or the user logs out.
+   */
   ngOnInit(): void {
-    localStorage.clear();
+    this.localStorageService.clearLocalStorage();
   }
 
+  /**
+   * @method
+   * @description - It opens the LoginComponent as a dialog for login purpose.
+   */
   onOpenUserLoginDialog(): void {
     this.dialog.open(LoginComponent, LOGIN_SIGNUP_FORM_STYLE);
   }
 
+  /**
+   * @method
+   * @description - It opens the RegistrationComponent as a dialog for registration purpose.
+   */
   onOpenUserRegistrationDialog(): void {
     this.dialog.open(RegistrationComponent, LOGIN_SIGNUP_FORM_STYLE);
   }

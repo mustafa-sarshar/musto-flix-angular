@@ -65,6 +65,10 @@ export class MovieCardComponent
     private snackBar: MatSnackBar
   ) {}
 
+  /**
+   * @method
+   * @description - It initializes the component by subscribing the component's variables to corresponding services.
+   */
   ngOnInit(): void {
     this.appMonitoringService.setIsDataFetchingStatus(true);
     this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
@@ -102,10 +106,19 @@ export class MovieCardComponent
       });
   }
 
+  /**
+   * @method
+   * @description - It performs the necessary actions when the component gets destroyed.
+   */
   ngOnDestroy(): void {
     this.onClosing();
   }
 
+  /**
+   * @method
+   * @description - It warns the user before leaving the page, if the data fetching process is still not finished.
+   * @returns
+   */
   canDeactivate():
     | boolean
     | UrlTree
@@ -120,6 +133,12 @@ export class MovieCardComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It checks whether tha given movie Id is in the favorites list or not.
+   * @param movieId
+   * @returns
+   */
   checkMovieIsFavorite(movieId: string): boolean {
     if (this.favorites.includes(movieId)) {
       return true;
@@ -128,6 +147,11 @@ export class MovieCardComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It toggles the movie's status as a favorite movie
+   * @param movieId
+   */
   onClickToggleFavorite(movieId: string): void {
     this.isUpdatingFavorites = true;
     if (this.checkMovieIsFavorite(movieId)) {
@@ -175,6 +199,11 @@ export class MovieCardComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It opens the GenresComponent as a dialog.
+   * @param genres
+   */
   onClickGenres(genres: Genre[]): void {
     this.dialog.open(
       GenresComponent,
@@ -182,6 +211,11 @@ export class MovieCardComponent
     ).componentInstance.genres = genres;
   }
 
+  /**
+   * @method
+   * @description - It opens the DirectorsComponent as a dialog.
+   * @param directors
+   */
   onClickDirectors(directors: Director[]): void {
     this.dialog.open(
       DirectorsComponent,
@@ -189,6 +223,11 @@ export class MovieCardComponent
     ).componentInstance.directors = directors;
   }
 
+  /**
+   * @method
+   * @description - It opens the StarsComponent as a dialog.
+   * @param stars
+   */
   onClickStars(stars: Actor[]): void {
     this.dialog.open(
       StarsComponent,
@@ -196,12 +235,20 @@ export class MovieCardComponent
     ).componentInstance.stars = stars;
   }
 
+  /**
+   * @method
+   * @description - It clears the search input field.
+   */
   onClickClearSearchBox(): void {
     this.searchMovieInput = "";
   }
 
+  /**
+   * @method
+   * @description - It performs unsubscribing from all services.
+   */
   onClosing(): void {
-    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.appMonitoringService.setIsDataFetchingStatus(false); // Reset the isDataFetching variable in AppMonitoringService to false.
     this.moviesServiceSubscription.unsubscribe();
     this.usersServiceSubscription.unsubscribe();
     this.appMonitoringServiceSubscription.unsubscribe();

@@ -9,7 +9,11 @@ import { WelcomePageComponent } from "./views/welcome-page/welcome-page.componen
 import { MovieCardComponent } from "./views/movies/movie-card/movie-card.component";
 import { UserProfileComponent } from "./views/users/user-profile/user-profile.component";
 
-const routes: Routes = [
+/**
+ * @constant
+ * @description - It holds all of the routes and their corresponding components.
+ */
+const ROUTES: Routes = [
   { path: "welcome", component: WelcomePageComponent },
   {
     path: "movies",
@@ -28,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(ROUTES, { useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

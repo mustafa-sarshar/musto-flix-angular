@@ -22,10 +22,18 @@ export class ConfirmationDialogComponent {
    */
   constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {}
 
+  /**
+   * @method
+   * @description - It closes the dialog by return 'false' to the dialog opener, representing the user's decline
+   */
   onClickDecline(): void {
     this.dialogRef.close(false);
   }
 
+  /**
+   * @method
+   * @description - It closes the dialog by return 'true' to the dialog opener, representing the user's acceptance
+   */
   onClickAccept(): void {
     this.dialogRef.close(true);
   }

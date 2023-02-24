@@ -54,6 +54,10 @@ export class UserProfileComponent
     private router: Router
   ) {}
 
+  /**
+   * @method
+   * @description - It initializes the component by subscribing the component's variables to corresponding services.
+   */
   ngOnInit(): void {
     this.appMonitoringService.setIsDataFetchingStatus(true);
     this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
@@ -92,6 +96,10 @@ export class UserProfileComponent
     });
   }
 
+  /**
+   * @method
+   * @description - It performs the necessary actions when the component gets destroyed.
+   */
   ngOnDestroy(): void {
     this.onClosing();
   }
@@ -228,6 +236,10 @@ export class UserProfileComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It performs all necessary action when the user enters valid user credentials and submits them to login.
+   */
   onSubmitForm(): void {
     if (this.allowSubmitForm()) {
       this.appMonitoringService.setIsDataFetchingStatus(true);
@@ -263,6 +275,10 @@ export class UserProfileComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It check the  all necessary action when the user enters valid user credentials and submits them to login.
+   */
   onClickDeleteAccount(): void {
     if (this.userData.username) {
       const dialogRef = this.dialog.open(
@@ -303,6 +319,10 @@ export class UserProfileComponent
     }
   }
 
+  /**
+   * @method
+   * @description - It clears resets the form's input fields.
+   */
   onClickClear(): void {
     this.changesSaved = true;
     this.dataForm.resetForm({
@@ -314,8 +334,12 @@ export class UserProfileComponent
     console.log(this.dataForm);
   }
 
+  /**
+   * @method
+   * @description - It performs unsubscribing from all services.
+   */
   onClosing(): void {
-    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.appMonitoringService.setIsDataFetchingStatus(false); // Reset the isDataFetching variable in AppMonitoringService to false.
     this.userServiceSubscription.unsubscribe();
     this.appMonitoringServiceSubscription.unsubscribe();
   }

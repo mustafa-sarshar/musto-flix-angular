@@ -12,6 +12,9 @@ import { Director } from "src/app/shared/models/movie.model";
   styleUrls: ["./directors.component.scss"],
 })
 export class DirectorsComponent {
+  /**
+   * @property
+   */
   directors: Director[] = [];
 
   constructor() {}

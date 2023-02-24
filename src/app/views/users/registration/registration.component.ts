@@ -38,6 +38,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar
   ) {}
 
+  /**
+   * @method
+   * @description - It initializes the component by subscribing the component's variables to corresponding services.
+   */
   ngOnInit(): void {
     this.isDataFetching = this.appMonitoringService.getIsDataFetchingStatus();
     this.appMonitoringServiceSubscription =
@@ -48,6 +52,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * @method
+   * @description - It performs the necessary actions when the component gets destroyed.
+   */
+  ngOnDestroy(): void {
+    this.onClosing();
+  }
+
+  /**
+   * @method
+   * @description - It performs all necessary action when the user enters valid user credentials and submits them to login.
+   */
   onSubmitForm(): void {
     this.appMonitoringService.setIsDataFetchingStatus(true);
     this.authServiceSubscription = this.usersService
@@ -73,17 +89,21 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.onClosing();
-  }
-
+  /**
+   * @method
+   * @description - It performs the necessary actions when the user refuses to login.
+   */
   onClickCancel(): void {
     this.onClosing();
     this.dialogRef.close();
   }
 
+  /**
+   * @method
+   * @description - It performs unsubscribing from all services.
+   */
   onClosing(): void {
-    this.appMonitoringService.setIsDataFetchingStatus(false);
+    this.appMonitoringService.setIsDataFetchingStatus(false); // Reset the isDataFetching variable in AppMonitoringService to false.
     this.authServiceSubscription.unsubscribe();
     this.appMonitoringServiceSubscription.unsubscribe();
   }

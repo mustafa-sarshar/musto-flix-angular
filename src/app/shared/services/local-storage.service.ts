@@ -106,4 +106,8 @@ export class LocalStorageService {
     localStorage.setItem("favorites", this.favorites.toString());
     this.favoritesSbj.next(this.favorites.slice());
   }
+
+  clearLocalStorage(): void {
+    localStorage.clear();
+  }
 }
