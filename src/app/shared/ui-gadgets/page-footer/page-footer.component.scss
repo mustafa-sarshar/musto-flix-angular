@@ -1,0 +1,20 @@
+.footer {
+  &-toolbar {
+    position: sticky;
+    bottom: 0;
+    z-index: 900;
+    width: 100%;
+  }
+
+  &-container {
+    margin: 10px auto;
+    padding: 5px 0 10px 0;
+    text-align: center;
+    background-color: #dfdfdf;
+    width: 100%;
+
+    * {
+      vertical-align: middle;
+    }
+  }
+}

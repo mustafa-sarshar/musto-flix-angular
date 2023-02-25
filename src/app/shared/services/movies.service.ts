@@ -1,82 +1,108 @@
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError, map } from "rxjs";
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from "@angular/common/http";
+import { Observable, catchError, map } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+import { LocalStorageService } from "./local-storage.service";
 
 import { BACKEND_SERVER_URL } from "src/configs";
+import { UtilityService } from "./utility.service";
 
+/**
+ * @class
+ * @description - It holds all the services for interacting with the backend server for movie-related information.
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MoviesService {
-  constructor(private http: HttpClient) {}
+  /**
+   * @constructor
+   * @param http
+   * @param localStorageService
+   * @param errorService
+   */
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private utilityService: UtilityService
+  ) {}
 
+  /**
+   * @method
+   * @description - It returns all the movies from the backend database.
+   * @returns
+   */
   public getMoviesAll(): Observable<any> {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/populated`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
+      .pipe(
+        map(this.utilityService.extractResponseData),
+        catchError((error) => this.utilityService.handleError(error))
+      );
   }
 
+  /**
+   * @method
+   * @description - It returns one specific movie data from the backend database using the given movie title
+   * @param title
+   * @returns
+   */
   public getMovie(title: string): Observable<any> {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/${title}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
+      .pipe(
+        map(this.utilityService.extractResponseData),
+        catchError((error) => this.utilityService.handleError(error))
+      );
   }
 
+  /**
+   * @method
+   * @description - It returns one specific director data from the backend database using the given director name
+   * @param directorName
+   * @returns
+   */
   public getDirector(directorName: string): Observable<any> {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/directors/${directorName}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
+      .pipe(
+        map(this.utilityService.extractResponseData),
+        catchError((error) => this.utilityService.handleError(error))
+      );
   }
 
+  /**
+   * @method
+   * @description - It returns one specific genre data from the backend database using the given genre name
+   * @param genreName
+   * @returns
+   */
   public getGenre(genreName: string): Observable<any> {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     return this.http
       .get(`${BACKEND_SERVER_URL}/movies/genre/${genreName}`, {
         headers: new HttpHeaders({
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         }),
       })
-      .pipe(map(this.extractResponseData), catchError(this.handleError));
-  }
-
-  // Non-typed response extraction
-  private extractResponseData(res: Response): any {
-    return res || [];
-  }
-
-  // Handle Errors
-  private handleError(httpErrorRes: HttpErrorResponse): any {
-    if (httpErrorRes.error) {
-      if (httpErrorRes.error.message) {
-        console.error(
-          `Error Status: ${httpErrorRes.status}\nError message: ${httpErrorRes.error.message}`
-        );
-        return throwError({ message: httpErrorRes.error.message });
-      }
-    } else {
-      console.error(
-        `Error Status: ${httpErrorRes.status}\nError body: ${httpErrorRes.error}`
+      .pipe(
+        map(this.utilityService.extractResponseData),
+        catchError((error) => this.utilityService.handleError(error))
       );
-      return throwError("Something went wrong! Please try again later.");
-    }
   }
 }

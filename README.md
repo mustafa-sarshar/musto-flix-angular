@@ -1,8 +1,18 @@
 # Musto Flix (Angular)
 
+- A web-application for movie fans.
+
+## VISIT THE WEBSITE [😎🔗](https://mustafa-sarshar.github.io/musto-flix-angular/#/welcome)
+
 ## OBJECTIVES
 
 - Using Angular framework, build the client-side for [MovieApi](https://github.com/mustafa-sarshar/movie-api) based on its existing server-side code (REST API and database), with supporting documentation.
+
+### SCREENSHOTS
+
+| **Welcome Page** | **Registration** | **Login** | **Movie Cards** | **User Profile** |
+| :------------: | :------------: | :------------: | :------------: | :------------: |
+| ![Welcome Page](https://github.com/mustafa-sarshar/portfolio-website/blob/main/docs/assets/img/musto-flix-angular-1.png?raw=true) | ![Registration](https://github.com/mustafa-sarshar/portfolio-website/blob/main/docs/assets/img/musto-flix-angular-2.png?raw=true) | ![Login](https://github.com/mustafa-sarshar/portfolio-website/blob/main/docs/assets/img/musto-flix-angular-3.png?raw=true) | ![Movie Cards](https://github.com/mustafa-sarshar/portfolio-website/blob/main/docs/assets/img/musto-flix-angular-4.png?raw=true) | ![Movie Cards](https://github.com/mustafa-sarshar/portfolio-website/blob/main/docs/assets/img/musto-flix-angular-5.png?raw=true) |
 
 ## THE 5 W’s
 

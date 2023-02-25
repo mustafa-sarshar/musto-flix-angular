@@ -1,3 +1,5 @@
+$break-point__xs: 576px;
+
 .page {
   &-main {
     display: flex;
@@ -15,6 +17,24 @@
     text-align: center;
     border-radius: 0.375rem;
     box-shadow: 1px 1px 15px #00000030;
+  }
+
+  &-animation {
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.375rem;
+
+    img {
+      border-radius: 0.375rem;
+    }
+
+    @media all and (max-width: $break-point__xs) {
+      img {
+        display: block;
+        margin: 0 auto;
+        width: 80%;
+      }
+    }
   }
 
   &-actions {

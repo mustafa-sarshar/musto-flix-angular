@@ -1,12 +1,21 @@
-mat-card,
-mat-card-content,
 form {
   display: flex;
   flex-direction: column;
 }
 
-mat-card-title {
-  text-align: center;
-  font-weight: bold;
-  padding: 1rem;
+mat {
+  &-card {
+    display: flex;
+    flex-direction: column;
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+    }
+    &-title {
+      text-align: center;
+      font-weight: bold;
+      padding: 1rem;
+    }
+  }
 }

@@ -1,21 +1,21 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>
-      Sign Up!
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form autoComplete="off">
+  <form autoComplete="off" (ngSubmit)="onSubmitForm()" #formEl="ngForm">
+    <mat-card-header>
+      <mat-card-title>
+        Sign Up!
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
-        <input matInput [(ngModel)]="inputData.username" type="text" name="username" placeholder="username"
-          id="username" required>
+        <input matInput type="text" name="username" placeholder="username" id="username" minlength="5"
+          pattern="[a-zA-Z0-9-]+" [disabled]="isDataFetching" ngModel required>
         <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Enter your password</mat-label>
-        <input matInput name="pass" placeholder="" id="pass" autoComplete="off" [(ngModel)]="inputData.pass"
-          [type]="hidePasswordValue ? 'password' : 'text'" required>
+        <input matInput name="pass" placeholder="" id="pass" autoComplete="off"
+          [type]="hidePasswordValue ? 'password' : 'text'" minlength="5" [disabled]="isDataFetching" ngModel required>
         <button mat-icon-button matSuffix (click)="hidePasswordValue = !hidePasswordValue"
           [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordValue">
           <mat-icon>{{hidePasswordValue ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -23,21 +23,40 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="inputData.email" type="email" name="email" placeholder="Email" id="email" required>
+        <input matInput type="email" name="email" placeholder="Email" id="email" [disabled]="isDataFetching" ngModel
+          email required>
         <mat-icon matSuffix>mail</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Birth date</mat-label>
-        <input matInput [(ngModel)]="inputData.birth" type="date" name="birth" placeholder="birth" id="birth" required>
+        <input matInput type="date" name="birth" placeholder="birth" id="birth" [disabled]="isDataFetching" ngModel
+          required>
         <mat-icon matSuffix>calendar_month</mat-icon>
       </mat-form-field>
-    </form>
-  </mat-card-content>
-  <mat-card-footer>
-    <mat-card-actions align="end">
-      <button mat-stroked-button type="button" (click)="onSubmitForm()" class="button-profile">Sign Up</button>
-      <button mat-stroked-button type="button" (click)="onClickCancel()" class="button-profile"
-        color="warn">Cancel</button>
-    </mat-card-actions>
-  </mat-card-footer>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions align="end">
+        <button mat-stroked-button type="submit" [disabled]="!formEl.valid || isDataFetching">Sign Up</button>
+        <button mat-stroked-button type="button" (click)="onClickCancel()" color="warn"
+          [disabled]="isDataFetching">Cancel</button>
+      </mat-card-actions>
+    </mat-card-footer>
+    <div class="help-box"
+      *ngIf="!formEl.valid && formEl.touched && formEl.dirty && ((!formEl.controls['username'].valid && formEl.controls['username'].touched && formEl.controls['username'].dirty) || (!formEl.controls['pass'].valid && formEl.controls['pass'].touched && formEl.controls['pass'].dirty) || (!formEl.controls['email'].valid && formEl.controls['email'].touched && formEl.controls['email'].dirty) || (!formEl.controls['birth'].valid && formEl.controls['birth'].touched && formEl.controls['birth'].dirty))">
+      <span><strong>Help:</strong></span>
+      <ul>
+        <li
+          *ngIf="!formEl.controls['username'].valid && formEl.controls['username'].touched && formEl.controls['username'].dirty">
+          Username must be at least 5 characters long and alphanumeric!</li>
+        <li *ngIf="!formEl.controls['pass'].valid && formEl.controls['pass'].touched && formEl.controls['pass'].dirty">
+          Password must be at least 5 characters long!</li>
+        <li
+          *ngIf="!formEl.controls['email'].valid && formEl.controls['email'].touched && formEl.controls['email'].dirty">
+          Email must be valid!</li>
+        <li
+          *ngIf="!formEl.controls['birth'].valid && formEl.controls['birth'].touched && formEl.controls['birth'].dirty">
+          Birth date must be valid!</li>
+      </ul>
+    </div>
+  </form>
 </mat-card>

@@ -1,71 +1,82 @@
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable, catchError } from "rxjs";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
+import { LocalStorageService } from "./local-storage.service";
+import { UtilityService } from "./utility.service";
+
+import { UserLoginCredentials } from "../models/user.model";
 import { BACKEND_SERVER_URL } from "src/configs";
-import { UserLoginCredentials } from "../models";
 
+/**
+ * @class
+ * @description - It holds the services for user authentication
+ */
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  username = "";
+  /**
+   * @constructor
+   * @param http
+   * @param localStorageService
+   * @param errorService
+   */
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private utilityService: UtilityService
+  ) {}
 
-  constructor(private http: HttpClient) {}
-
+  /**
+   * @method
+   * @description - Performs the login using the given username and password
+   * @param userCredentials
+   * @returns
+   */
   public userLogin(userCredentials: UserLoginCredentials): Observable<any> {
     return this.http
       .post(
         `${BACKEND_SERVER_URL}/login`,
         {},
         {
-          params: {
-            username: userCredentials.username,
-            pass: userCredentials.pass,
-          },
+          params: new HttpParams()
+            .set("username", userCredentials.username)
+            .set("pass", userCredentials.pass),
         }
       )
-      .pipe(catchError(this.handleError));
+      .pipe(catchError((error) => this.utilityService.handleError(error)));
   }
 
+  /**
+   * @method
+   * @description - Based on the saved username and the expiration of the token, this methods returns a promise.
+   * @returns
+   */
   public isAuthenticated() {
     const promise = new Promise((resolve, reject) => {
-      const usernameSaved = localStorage.getItem("username");
-      console.log("usernameSaved", usernameSaved, "username:", this.username);
+      const usernameSaved =
+        this.localStorageService.getUsernameFromLocalStorage();
       resolve(
-        usernameSaved == this.username &&
-          this.username !== "" &&
-          (usernameSaved !== undefined || usernameSaved !== null) &&
+        (usernameSaved !== undefined || usernameSaved !== "") &&
           !this.isTokenExpired()
       );
     });
     return promise;
   }
 
+  /**
+   * @method
+   * @description - It checks whether the locally saved token is expired or not.
+   * @returns
+   */
   private isTokenExpired(): boolean {
-    const token = localStorage.getItem("token");
+    const token = this.localStorageService.getTokenFromLocalStorage();
     if (!token) {
       return true;
     } else {
       const expiry = JSON.parse(atob(token.split(".")[1])).exp;
       return Math.floor(new Date().getTime() / 1000) >= expiry;
-    }
-  }
-
-  // Handle Errors
-  private handleError(httpErrorRes: HttpErrorResponse): any {
-    if (httpErrorRes.error) {
-      if (httpErrorRes.error.message) {
-        console.error(
-          `Error Status: ${httpErrorRes.status}\nError message: ${httpErrorRes.error.message}`
-        );
-        return throwError({ message: httpErrorRes.error.message });
-      }
-    } else {
-      console.error(
-        `Error Status: ${httpErrorRes.status}\nError body: ${httpErrorRes.error}`
-      );
-      return throwError("Something went wrong! Please try again later.");
     }
   }
 }

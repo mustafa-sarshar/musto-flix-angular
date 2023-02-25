@@ -15,10 +15,23 @@ export interface CanDeactivateComponent {
     | Promise<boolean | UrlTree>;
 }
 
+/**
+ * @class
+ * @description - It prevents any accidentally change of the current page by the user.
+ */
 @Injectable({
   providedIn: "root",
 })
 export class LeavePageGuard implements CanDeactivate<CanDeactivateComponent> {
+  /**
+   * @method
+   * @description - Allows the page navigation to happen, only if the user accepts.
+   * @param component
+   * @param currentRoute
+   * @param currentState
+   * @param nextState
+   * @returns
+   */
   canDeactivate(
     component: CanDeactivateComponent,
     currentRoute: ActivatedRouteSnapshot,

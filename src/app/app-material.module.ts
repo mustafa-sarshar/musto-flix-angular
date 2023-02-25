@@ -14,7 +14,11 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListModule } from "@angular/material/list";
 
-const materials = [
+/**
+ * @constant
+ * @description - It holds all necessary Material Design components needed for the app.
+ */
+const MATERIALS = [
   MatInputModule,
   MatButtonModule,
   MatCardModule,
@@ -31,7 +35,7 @@ const materials = [
 ];
 
 @NgModule({
-  imports: [materials],
-  exports: [materials],
+  imports: [MATERIALS],
+  exports: [MATERIALS],
 })
 export class AppMaterialModule {}
