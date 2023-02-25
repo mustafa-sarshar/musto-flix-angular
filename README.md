@@ -11,8 +11,8 @@
 ### SCREENSHOTS
 
 | **Welcome Page** | **Registration** | **Login** | **Movie Cards** | **User Profile** |
-| :------------: | :------------: | :------------: | :------------: | :------------: |
-| ![Welcome Page](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-1.png?raw=true) | ![Registration](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-2.png?raw=true) | ![Login](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-3.png?raw=true) | ![Movie Cards](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-4.png?raw=true) | ![Movie Cards](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-5.png?raw=true) |
+| :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| ![Welcome Page](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-1.png?raw=true) | ![Registration](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-2.png?raw=true) | ![Login](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-3.png?raw=true) | ![Movie Cards](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-4.png?raw=true) | ![User Profile](https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-5.png?raw=true) |
 
 ## THE 5 W’s
 
