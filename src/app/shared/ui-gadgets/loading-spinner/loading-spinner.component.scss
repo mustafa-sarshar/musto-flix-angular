@@ -3,7 +3,7 @@
 
 $color-spinner: #4e5658;
 $color-spinner___background: #c8c7c7f3;
-$color-box-shadow: #00000074;
+$color-shadow: #00000074;
 $duration-animation: 1s;
 
 $spinner-rotation-degrees: 0deg, 30deg, 60deg, 90deg, 120deg, 150deg, 180deg,
@@ -74,7 +74,7 @@ $spinner-animation-delays: -0.9166666666666666s, -0.8333333333333334s, -0.75s,
               $deg,
               $delay,
               $color-spinner,
-              $color-box-shadow
+              $color-shadow
             );
           }
         }
@@ -87,12 +87,13 @@ $spinner-animation-delays: -0.9166666666666666s, -0.8333333333333334s, -0.75s,
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      color: black;
+      color: $color-spinner___background;
       font-size: 2rem;
       padding: 1rem;
       border-radius: 0.375rem;
-      background-color: $color-spinner___background;
-      box-shadow: 2px 2px 50px $color-box-shadow;
+      // background-color: $color-spinner___background;
+      text-shadow: 1px 1px 2px #000000, -1px -1px 2px #000000,
+        5px 5px 15px $color-spinner;
     }
   }
 }
