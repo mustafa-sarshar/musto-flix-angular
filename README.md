@@ -12,18 +12,20 @@
 
 <table width="100%" style="overflow:auto">
   <tr>
-    <th width="20%" style="text-align:center;">Welcome Page</th>
-    <th width="20%" style="text-align:center;">Registration</th>
-    <th width="20%" style="text-align:center;">Login</th>
-    <th width="20%" style="text-align:center;">Movie Cards</th>
-    <th width="20%" style="text-align:center;">User Profile</th>
+    <th width="16.6%" style="text-align:center;">Welcome Page</th>
+    <th width="16.6%" style="text-align:center;">Registration</th>
+    <th width="16.6%" style="text-align:center;">Login</th>
+    <th width="16.6%" style="text-align:center;">Movie Cards</th>
+    <th width="16.6%" style="text-align:center;">Movie Details</th>
+    <th width="16.6%" style="text-align:center;">User Profile</th>
   </tr>
   <tr>
-    <td width="20%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-1.png?raw=true"/></td>
-    <td width="20%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-2.png?raw=true"/></td>
-    <td width="20%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-3.png?raw=true"/></td>
-    <td width="20%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-4.png?raw=true"/></td>
-    <td width="20%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-5.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-1.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-2.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-3.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-4.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-5.png?raw=true"/></td>
+    <td width="16.6%"><img src="https://github.com/mustafa-sarshar/musto-flix-angular/blob/main/docs/assets/img/musto-flix-angular-6.png?raw=true"/></td>
   </tr>
 </table>
 
