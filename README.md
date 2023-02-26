@@ -2,11 +2,11 @@
 
 - A web-application for movie fans.
 
-## VISIT THE WEBSITE [😎🔗](https://mustafa-sarshar.github.io/musto-flix-angular/#/welcome)
-
 ## OBJECTIVES
 
 - Using Angular framework, build the client-side for [MovieApi](https://github.com/mustafa-sarshar/movie-api) based on its existing server-side code (REST API and database), with supporting documentation.
+
+## VISIT THE WEBSITE [😎🔗](https://mustafa-sarshar.github.io/musto-flix-angular/#/welcome)
 
 ### SCREENSHOTS
 
