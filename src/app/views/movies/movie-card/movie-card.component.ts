@@ -15,6 +15,8 @@ import { CanDeactivateComponent } from "src/app/shared/guards/leave-page.guard";
 import { DirectorsComponent } from "../directors/directors.component";
 import { GenresComponent } from "../genres/genres.component";
 import { StarsComponent } from "../stars/stars.component";
+import { ConfirmationDialogComponent } from "src/app/shared/ui-gadgets/confirmation-dialog/confirmation-dialog.component";
+import { DialogBox } from "src/app/shared/models/dialog.model";
 
 import {
   Actor,
@@ -23,7 +25,10 @@ import {
   Movie,
 } from "src/app/shared/models/movie.model";
 
-import { MOVIE_DETAIL_COMPONENT_STYLE } from "src/configs";
+import {
+  CONFIRMATION_POPUP_STYLE,
+  MOVIE_DETAIL_COMPONENT_STYLE,
+} from "src/configs";
 
 /**
  * @class
@@ -125,9 +130,15 @@ export class MovieCardComponent
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     if (this.isUpdatingFavorites) {
-      return confirm(
+      const dialogRef = this.dialog.open(
+        ConfirmationDialogComponent,
+        CONFIRMATION_POPUP_STYLE
+      );
+      dialogRef.componentInstance.dialogBox = new DialogBox(
+        "Be careful!",
         "Favorite list is getting updated now! Do you really want to leave the page?"
       );
+      return dialogRef.afterClosed();
     } else {
       return true;
     }
