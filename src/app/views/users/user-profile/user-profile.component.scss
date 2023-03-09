@@ -1,5 +1,6 @@
-$break-point: 550px;
+$break-point__horizontal--xs: 550px;
 $width-card--max: 300px;
+$size-footer: 100px;
 
 .user {
   &-card {
@@ -9,7 +10,7 @@ $width-card--max: 300px;
       flex-wrap: wrap;
       justify-content: center;
       width: 100%;
-      margin-bottom: 50px;
+      margin-bottom: $size-footer;
     }
 
     &-title {
@@ -31,7 +32,7 @@ $width-card--max: 300px;
       background-color: transparent;
 
       &:first-child {
-        @media all and (max-width: $break-point) {
+        @media all and (max-width: $break-point__horizontal--xs) {
           padding-bottom: 1rem;
           border-bottom: 1px solid lightgray;
         }

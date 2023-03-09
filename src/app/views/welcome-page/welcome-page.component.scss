@@ -1,14 +1,21 @@
-$break-point__xs: 576px;
+$break-point__horizontal--xs: 576px;
+$break-point__vertical--xs: 820px;
+$size-footer: 100px;
 
 .page {
-  &-main {
+  &-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
     width: 95%;
+    height: 90%;
     margin: 0 auto;
+
+    @media all and (max-height: $break-point__vertical--xs) {
+      margin-bottom: $size-footer;
+      height: auto;
+    }
   }
 
   &-header {
@@ -28,7 +35,7 @@ $break-point__xs: 576px;
       border-radius: 0.375rem;
     }
 
-    @media all and (max-width: $break-point__xs) {
+    @media all and (max-width: $break-point__horizontal--xs) {
       img {
         display: block;
         margin: 0 auto;
