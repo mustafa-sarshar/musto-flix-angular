@@ -115,20 +115,15 @@ export class UserProfileComponent
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     if (!this.changesSaved) {
-      // const dialogRef = this.dialog.open(
-      //   ConfirmationDialogComponent,
-      //   CONFIRMATION_POPUP_STYLE
-      // );
-      // dialogRef.componentInstance.dialogBox = new DialogBox(
-      //   "Be careful!",
-      //   "If you leave the page now, you will discard the changes!"
-      // );
-      // dialogRef.afterClosed().subscribe((answer) => {
-      //   console.log("answer:", answer);
-      // });
-      return confirm(
+      const dialogRef = this.dialog.open(
+        ConfirmationDialogComponent,
+        CONFIRMATION_POPUP_STYLE
+      );
+      dialogRef.componentInstance.dialogBox = new DialogBox(
+        "Be careful!",
         "If you leave the page now, you will discard the changes!"
       );
+      return dialogRef.afterClosed();
     } else {
       return true;
     }
